@@ -102,6 +102,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+# AbstractUser & CustomUser
+AUTH_USER_MODEL = 'tasks.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
