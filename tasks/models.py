@@ -18,33 +18,50 @@ COLOR_TASKS = [
 ]
 
 class User(AbstractUser):
-
+    last_login = None
+    groups = None
+    user_permissions = None
+    
     class Meta:
-        verbose_name        = "User"
-        verbose_name_plural = "Users"
-
-    def __str__(self) -> str:
-        return f"{self.username} - {self.first_name.title()} {self.last_name.title()}" 
-
+        verbose_name = 'user'
+    
+    
 class Category(models.Model): 
     title = models.CharField(max_length=50)
     
 class Tag(models.Model):
     title = models.CharField(max_length=50, choices=TAG_TITLES)
-    
-class Group(models.Model):
+
+class Workspace(models.Model):
+    # MAIN..............................
     name = models.CharField(max_length=100)
-    member_count = models.IntegerField()
-    membership = models.ManyToManyField(User, related_name='group')
-    
-class Task(models.Model):
-    title = models.CharField(max_length=200)
-    description = models.TextField()
-    due_date = models.DateTimeField()
-    status = models.BooleanField(default=False)
+
+    # EXTRA..............................
+    member_count = models.IntegerField(default=1)
     public = models.BooleanField(default=False)
-    color = models.CharField(max_length=8, choices=COLOR_TASKS, default='white')
-    tag = models.ManyToManyField(Tag)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='task')
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='task')
     
+    # RELATIONS.........................
+    members = models.ManyToManyField(User, related_name='memberships')
+    
+    def __str__(self) -> str:
+        return f"{self.name} -> count: {self.member_count} | members: {self.members}" 
+
+class Task(models.Model):
+    # MAIN...................................
+    title       = models.CharField(max_length=200)
+    description = models.TextField()
+    due_date    = models.DateTimeField()
+    status      = models.BooleanField(default=False)
+    
+    # EXTRA...................................    
+    hide  = models.BooleanField(default=False)
+    color = models.CharField(max_length=8, choices=COLOR_TASKS, default='white')
+    
+    # RELATIONS...............................
+    tag        = models.ManyToManyField(Tag)
+    category   = models.ForeignKey(Category, on_delete=models.CASCADE)
+    workspace  = models.ForeignKey(Workspace, on_delete=models.CASCADE, related_name='task')
+
+    def __str__(self) -> str:
+        return self.title
+

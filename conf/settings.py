@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)l(=x_688q56e=bql_e0$6u#^e22s4m%+mhsgy2_@mul_*az6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -103,7 +103,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # AbstractUser & CustomUser
-AUTH_USER_MODEL = 'tasks.User'
+AUTH_USER_MODEL = 'tasks.User' 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -121,9 +121,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
-# STATICFILES_DIR = [
-#     BASE_DIR/'images'
-# ]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+    BASE_DIR / "tasks/templates/bootstrap",
+]
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
