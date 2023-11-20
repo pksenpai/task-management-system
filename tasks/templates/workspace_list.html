@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block title %} WORKSPACE {% endblock %}
+
+{% block body %}
+  {% for workspace in pws %}
+    <div class="content-card" id="body">
+      <div class="card rounded-4 rounded-bottom-2 m-5" style="width:300px;">
+        <div class="card-body bg-warning rounded-1 rounded-top-0 pt-2">
+          <h5 class="card-title my-auto text-center h-100">
+            <strong class="mx-auto">{{ workspace.name }}</strong>
+          </h5>
+          <p class="card-text mb-2 ps-2 mt-3">members: {{ workspace.member_count }}</p>
+        </div>
+      </div>      
+    </div>
+  {% endfor %}
+{% endblock %}
+

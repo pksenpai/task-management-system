@@ -11,9 +11,7 @@
   <title>{% block title %}TMS{% endblock %}</title>
 </head>
 <!-- content-card for cards -->
-<!-- rgb(49, 236, 86) green -->
-<!-- rgb(239, 3, 108) red -->
-<!-- rgb(238, 114, 248) pink -->
+
 <body style="background-color: rgb(22, 74, 65);"> 
   <!-- my web navigation -->
   {% block nav %}
@@ -30,7 +28,12 @@
             <li><a href="/" class="nav-link px-2 text-warning">HOME</a></li>
             <li><a href="/workspaces/" class="nav-link px-2 text-white">Workspace</a></li>
             <li><a href="/faqs" class="nav-link px-2 text-white">MyTask</a></li>
-            <li><a href="/about" class="nav-link px-2 text-white">Invite</a></li>
+            <li>
+              <!-- <a href="/about" class="nav-link px-2 text-white">Invite</a> -->
+              <button type="button" class="btn text-white position-relative">
+                Invite <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">+99 <span class="visually-hidden">unread messages</span></span>
+              </button>
+            </li>
           </ul>
   
           <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
@@ -44,24 +47,11 @@
         </div>
       </div>
     </nav>
-
-    <img class="" src="{% static 'images/003.png' %}" style="width: 50%;">
   </header>
   {% endblock %}
   
   <main>
-    <div class="content-card" id="body">
-        <div class="card rounded-4 rounded-bottom-2 m-5" style="width:300px;">
-            <img class="card-img-top rounded-4 rounded-bottom-0" src="{% static image %}" alt="Card image">
-            <div class="card-body bg-warning rounded-1 rounded-top-0 pt-2">
-              <h5 class="card-title my-auto text-center h-100">
-                <strong class="mx-auto">{{ game.title }}</strong>
-              </h5>
-              <p class="card-text mb-2 ps-2 mt-3">score -> {{ game.score }}/10</p>
-              <p class="card-text mb-2 ps-2">age -> +{{ game.allowed_age }}</p>
-              <p class="card-text mb-2 ps-2">genre -> {{ game.genre }}</p>
-    </div>
-    <!-- <div id="body">{% block body %}{% endblock %}</div> -->
+    <div id="body">{% block body %}{% endblock %}</div>
   </main>
 </body>
 </html>

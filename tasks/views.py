@@ -5,12 +5,19 @@ from .models import *
 """\_________________________MAIN_________________________/"""
 
 def home(request):
-    template = "base.html"
+    template = "home.html"
     return render(request, template)
 
 """\______________________WORKSPACE______________________/"""
 
-def workspace_list(request): ...
+def workspace_list(request):
+    public_workspaces = Workspace.objects.filter(public=True)
+    context = {
+        'pws': public_workspaces
+    }
+    template = 'workspace_list.html'
+    return render(request, template, context=context)
+    
 def add_workspace(request): ...
 def update_workspace(request): ...
 def remove_workspace(request): ...
