@@ -38,5 +38,7 @@ def signup(request):
     template = 'signup.html'
     return render(request, template)
     
-def login(request): ...
+def login(request):
+    template = 'login.html'
+    return render(request, template)
 
