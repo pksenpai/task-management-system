@@ -36,9 +36,9 @@ def remove_task(request, slug): ...
 
 def signup(request):
     template = 'signup.html'
-    return render(request, template)
+    return render(request, template, {'footer': True})
     
 def login(request):
     template = 'login.html'
-    return render(request, template)
+    return render(request, template, {'footer': True})
 
