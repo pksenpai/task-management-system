@@ -7,14 +7,18 @@
   <link rel="stylesheet" href="bootstrap/bootstrap.bundle.min.js">
   <link rel="stylesheet" href="bootstrap/bootstrap-icons.css">
   <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-  <!-- {% block header-setting %}{% endblock %} -->
+  <link rel="stylesheet" href="{% static 'bootstrap.bundle.min.js' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap-icons.css' %}">
+
+  {% block header-setting %}{% endblock %}
   <title>{% block title %}TMS{% endblock %}</title>
 </head>
 <!-- content-card for cards -->
 
-<body style="background-color: rgb(22, 74, 65);"> 
+<!-- change background color in other templates -->
+<body style="background-color: rgb(22, 74, 65);">
   <!-- my web navigation -->
-  {% block nav %}
+  
   <header>
     <nav class="p-1 text-white" style="background-color: rgb(22, 74, 65);">
       <div class="mx-5">
@@ -47,8 +51,9 @@
         </div>
       </div>
     </nav>
+    {% block nav %}{% endblock %}
   </header>
-  {% endblock %}
+  
   
   <main>
     <div id="body">{% block body %}{% endblock %}</div>

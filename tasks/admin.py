@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Workspace, Task
+from .models import User, Workspace, Task, Tag
 
 
 @admin.register(User)
@@ -10,3 +10,6 @@ class WorkspaceAdmin(admin.ModelAdmin): ...
 
 @admin.register(Task)
 class TaskAdmin(admin.ModelAdmin): ...
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin): ...
