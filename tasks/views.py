@@ -34,6 +34,9 @@ def remove_task(request, slug): ...
 
 """\________________________USER________________________/"""
 
-def signup(request): ...
+def signup(request):
+    template = 'signup.html'
+    return render(request, template)
+    
 def login(request): ...
 
