@@ -36,7 +36,10 @@ class User(AbstractUser):
     
     
 class Category(models.Model): 
-    title = models.CharField(max_length=50, choices=CATEGORY_CHOICES, default='School')
+    title = models.CharField(max_length=50, choices=CATEGORY_CHOICES, unique=True)
+    
+    def __str__(self) -> str:
+        return self.get_title_display() # show full title django-built-in method
     
 class Tag(models.Model):
     title = models.CharField(max_length=100)
@@ -45,10 +48,12 @@ class Tag(models.Model):
         return self.title
     
 
-class Workspace(models.Model): # add HOST later
+class Workspace(models.Model): 
     # MAIN..............................
+    # host = models.CharField(max_length=150) # WHO Create Workspace with host permissions
     name = models.CharField(max_length=100)
-
+    description = models.TextField(blank=True)
+    
     # EXTRA..............................
     member_count = models.IntegerField(default=1)
     public       = models.BooleanField(default=False)
@@ -64,7 +69,7 @@ class Workspace(models.Model): # add HOST later
 class Task(models.Model):
     # MAIN...................................
     title       = models.CharField(max_length=200)
-    description = models.TextField()
+    description = models.TextField(blank=True)
     due_date    = models.DateTimeField()
     status      = models.BooleanField(default=False)
     
