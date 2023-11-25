@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
+  <link rel="stylesheet" href="bootstrap/bootstrap.bundle.min.js">
+  <link rel="stylesheet" href="bootstrap/bootstrap-icons.css">
+  <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap.bundle.min.js' %}">
+  <link rel="stylesheet" href="{% static 'bootstrap-icons.css' %}">
+
+  {% block header-setting %}{% endblock %}
+  <title>{% block title %}TMS{% endblock %}</title>
+</head>
+<!-- content-card for cards -->
+
+<!-- change background color in other templates -->
+<body style="background-color: rgb(22, 74, 65);">
+  <!-- my web navigation -->
+  
+  <header>
+    <nav class="p-1 text-white" style="background-color: rgb(22, 74, 65);">
+      <div class="mx-5">
+        <div class="d-flex flex-wrap align-items-center">
+          <a href="/" class="d-flex me-4 align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
+            <img class="bi me-2" src="{% media 'images/tms-logo.png' %}" width="75" height="70" aria-label="Bootstrap"/>
+            <h3>Thornless</h3>
+          </a>
+  
+          <ul class="nav col-lg-auto ms-lg-auto me-3">
+            <li><a href="/" class="nav-link px-2 text-warning">HOME</a></li>
+            <li><a href="/workspaces/" class="nav-link px-2 text-white">Workspace</a></li>
+            <li><a href="/faqs" class="nav-link px-2 text-white">MyTask</a></li>
+            <li>
+              <!-- <a href="/about" class="nav-link px-2 text-white">Invite</a> -->
+              <button type="button" class="btn text-white position-relative">
+                Invite <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">+99 <span class="visually-hidden">unread messages</span></span>
+              </button>
+            </li>
+          </ul>
+  
+          <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
+            <input type="search" class="form-control form-control-dark text-bg-white" placeholder="Search..." aria-label="Search">
+          </form> -->
+  
+          <div class="text-end">
+            <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+            <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+    {% block nav %}{% endblock %}
+  </header>
+  
+  
+  <main>
+    <div id="body">{% block body %}{% endblock %}</div>
+  </main>
+  {% if footer %}
+  <div class="position-absolute container top-100 start-50 translate-middle">
+    <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 my-4 border-top">
+      <p class="col-md-4 mb-0 text-white">© 2023 Dev, PKPY</p>
+  
+      <div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
+        <img class="bi me-2" src="{% static 'images/tms-logo.png' %}" width="55" height="50" aria-label="Bootstrap"/>
+      </div>
+  
+      <ul class="nav col-lg-auto ms-lg-auto me-3">
+        <li><a href="/" class="nav-link px-2 text-white">home</a></li>
+        <li><a href="/workspaces/" class="nav-link px-2 text-white">workspace</a></li>
+        <li><a href="/faqs" class="nav-link px-2 text-white">tasks</a></li>
+        </li>
+      </ul>
+    </footer>
+  </div>
+  {% endif %}
+</body>
+</html>

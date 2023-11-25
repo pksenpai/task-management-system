@@ -2,19 +2,11 @@ from django.urls import path
 from .views import *
 
 
+app_name = 'tasks'
 urlpatterns = [
-    path('', home),
-    path('workspaces/', workspace_list),
-    path('workspaces/add/', add_workspace),
-    path('workspaces/update/', update_workspace),
-    path('workspaces/remove/', remove_workspace),
-    
-    path('workspaces/<slug:slug>', task_list),
-    path('workspaces/<slug:slug>/add', add_task),
-    path('workspaces/<slug:slug>/update', update_task),
-    path('workspaces/<slug:slug>/remove', remove_task),
-    
-    path('signup/', signup),
-    path('login/', login),
-    
+    path('<int:id>/', task_list, name='task_list'),
+    path('<int:id>/add/', add_task, name='add_task'),
+    path('<int:id>/update/', update_task, name='update_task'),
+    path('<int:id>/remove/', remove_task, name='remove_task'),
 ]
+

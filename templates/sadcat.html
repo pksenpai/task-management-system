@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block title %} SAD:( {% endblock %}
+
+{% block body %}
+<div class="container">
+  <img class="position-absolute end-0" src="{% static 'images/sad-cat.gif' %}" alt="Sad-Cat" style="width: 100%;">
+  <div class="position-absolute start-50 top-50 translate-middle text-white">
+    <h1 style="font-size: 80px;" >you do not like me?</h1>
+  </div>
+</div>
+{% endblock %}
+

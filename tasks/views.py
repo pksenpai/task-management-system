@@ -1,44 +1,17 @@
 from django.shortcuts import render, HttpResponse
+from django.contrib.auth import authenticate
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.forms import AuthenticationForm
+
 from .models import *
 
 
-"""\_________________________MAIN_________________________/"""
-
-def home(request):
-    template = "home.html"
-    return render(request, template)
-
-"""\______________________WORKSPACE______________________/"""
-
-def workspace_list(request):
-    public_workspaces = Workspace.objects.filter(public=True).order_by('-member_count')
-    context = {
-        'pws': public_workspaces
-    }
-    template = 'workspace_list.html'
-    return render(request, template, context=context)
-    
-def add_workspace(request): ...
-def update_workspace(request): ...
-def remove_workspace(request): ...
-def workspace_member_count(request): ...
-
 """\________________________TASK________________________/"""
-
-def task_list(request, slug):
-    return HttpResponse(f'<h1>Hello {slug}!!!</h1>')
+@login_required
+def task_list(request, id):
+    return HttpResponse(f'<h1>Hello {id}!!!</h1>')
     
 def add_task(request, slug): ...
 def update_task(request, slug): ...
 def remove_task(request, slug): ...
-
-"""\________________________USER________________________/"""
-
-def signup(request):
-    template = 'signup.html'
-    return render(request, template, {'footer': True})
-    
-def login(request):
-    template = 'login.html'
-    return render(request, template, {'footer': True})
 
