@@ -24,7 +24,7 @@
       <div class="mx-5">
         <div class="d-flex flex-wrap align-items-center">
           <a href="/" class="d-flex me-4 align-items-center mb-2 mb-lg-0 text-white text-decoration-none">
-            <img class="bi me-2" src="{% media 'images/tms-logo.png' %}" width="75" height="70" aria-label="Bootstrap"/>
+            <img class="bi me-2" src="{% static 'tms-logo.png' %}" width="75" height="70" aria-label="Bootstrap"/>
             <h3>Thornless</h3>
           </a>
   
@@ -45,8 +45,8 @@
           </form> -->
   
           <div class="text-end">
-            <a href="/login"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
-            <a href="/signup"><button type="button" class="btn btn-warning">Sign-up</button></a>
+            <a href="{% url "users:login" %}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
+            <a href="{% url "users:signup" %}"><button type="button" class="btn btn-warning">Sign-up</button></a>
           </div>
         </div>
       </div>
@@ -64,7 +64,7 @@
       <p class="col-md-4 mb-0 text-white">© 2023 Dev, PKPY</p>
   
       <div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
-        <img class="bi me-2" src="{% static 'images/tms-logo.png' %}" width="55" height="50" aria-label="Bootstrap"/>
+        <img class="bi me-2" src="{% static 'tms-logo.png' %}" width="55" height="50" aria-label="Bootstrap"/>
       </div>
   
       <ul class="nav col-lg-auto ms-lg-auto me-3">

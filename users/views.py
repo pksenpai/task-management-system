@@ -1,10 +1,9 @@
-from django.shortcuts import render, HttpResponse
+from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
 from .models import *
-
 
 """\________________________SignUp________________________/"""
 
@@ -31,7 +30,20 @@ def signup(request):
 
 """\________________________Login________________________/"""
 
-# def login(request):
-#     template = 'login.html'
-#     return render(request, template, {'footer': True})
+def login_view(request):
+    if not request.user.is_authenticated :
+        if request.method == 'POST':
+            username = request.POST["username"]
+            password = request.POST["password"]
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('/')
+            else:
+                return render(request, 'accounts/login.html')
+            
+        return render(request, 'accounts/login.html')
+    else:
+        return redirect('/')
+
 

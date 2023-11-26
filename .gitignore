@@ -2,6 +2,7 @@
 __pycache__
 migrations
 db.sqlite3
+venv*
 
 # extra files:
 todo.txt

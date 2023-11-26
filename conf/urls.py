@@ -17,8 +17,6 @@ Including another URLconf
 from django.conf import settings
 from django.conf.urls.static import static
 
-import django.contrib.auth.urls # for login, logout, &...
-
 from django.contrib import admin
 from django.urls import path, include
 
@@ -31,10 +29,8 @@ urlpatterns = [
     path('', home, name='home'),
     path('sad/', sad, name='sad'),
     
-    path('signup/', include('users.urls')),
-    path("accounts/", include("django.contrib.auth.urls")),
-    
-    path('workspace/', include('workspaces.urls')),
-    path('workspace/id/', include('tasks.urls')),
+    path('accounts/', include('users.urls')),        #USERS
+    path('workspace/', include('workspaces.urls')),  #WORKSPACE
+    path('workspace/id/', include('tasks.urls')),    #TASKS
     
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
