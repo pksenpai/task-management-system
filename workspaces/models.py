@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 
 CATEGORY_CHOICES = [
@@ -40,7 +41,7 @@ class Workspace(models.Model):
     # RELATIONS.........................
     category   = models.ForeignKey(Category, on_delete=models.CASCADE)
     tag        = models.ManyToManyField(Tag)
-    members    = models.ManyToManyField("users.User", related_name='workspace')
+    members    = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='workspace')
     
     def __str__(self) -> str:
         return f"{self.name} -> count: {self.member_count} | members: {self.members}" 

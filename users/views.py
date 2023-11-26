@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.contrib import messages
 from .models import *
 
 """\________________________SignUp________________________/"""
@@ -28,6 +28,25 @@ def signup(request):
     template = 'signup.html'
     return render(request, template, context=context)
 
+def signup(request):
+    form = UserCreationForm()
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            messages.success(
+                request, 
+                f'your Account created Successfully!'
+            )
+            messages.success(
+                request, 
+                f'Welcome {username} :3'
+            )
+            return redirect("/accounts/login/")    
+         
+    return render(request, 'signup2.html', {'form': form})
+    
+    
 """\________________________Login________________________/"""
 
 def login_view(request):

@@ -39,9 +39,9 @@ DJANGO_APPS = [
 ]
 
 MY_APPS = [
-    'users',
-    'tasks',
-    'workspaces',
+    'users.apps.UsersConfig',
+    'tasks.apps.TasksConfig',
+    'workspaces.apps.WorkspacesConfig',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS
@@ -109,7 +109,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # AbstractUser & CustomUser
-AUTH_USER_MODEL = 'users.User' 
+AUTH_USER_MODEL = 'auth.User' 
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/

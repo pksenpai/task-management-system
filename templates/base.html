@@ -20,6 +20,13 @@
   <!-- my web navigation -->
   
   <header>
+    {% if messages %}
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} mb-1 py-2">
+          {{ message }}
+        </div>
+      {% endfor %}
+    {% endif %}
     <nav class="p-1 text-white" style="background-color: rgb(22, 74, 65);">
       <div class="mx-5">
         <div class="d-flex flex-wrap align-items-center">
@@ -43,10 +50,25 @@
           <!-- <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search">
             <input type="search" class="form-control form-control-dark text-bg-white" placeholder="Search..." aria-label="Search">
           </form> -->
-  
+          
           <div class="text-end">
+            {% if login %}
+            <div class="dropdown text-end">
+              <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{% static "004.png" %}" alt="mdo" width="32" height="32" class="rounded-circle">
+              </a>
+              <ul class="dropdown-menu text-small" style="">
+                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
+                <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Sign out</a></li>
+              </ul>
+            </div>
+            {% else %}
             <a href="{% url "users:login" %}"><button type="button" class="btn btn-outline-light me-2">Login</button></a>
             <a href="{% url "users:signup" %}"><button type="button" class="btn btn-warning">Sign-up</button></a>
+            {% endif %}
           </div>
         </div>
       </div>
