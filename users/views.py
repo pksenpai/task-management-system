@@ -46,7 +46,7 @@ def signup(request):
             )
             return redirect("/accounts/login/")    
          
-    return render(request, 'signup2.html', {'form': form})
+    return render(request, 'signup.html', {'form': form})
     
     
 """\________________________Login________________________/"""
