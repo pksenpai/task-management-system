@@ -1,38 +1,40 @@
 from django.shortcuts import render, redirect, HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from .forms import *
 from .models import *
 
 """\________________________SignUp________________________/"""
 
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('/workspace')
+# def signup(request):
+#     if request.user.is_authenticated:
+#         return redirect('/workspace')
     
-    form = UserCreationForm()
+#     form = SignUpForm()
+#     if request.method == 'POST':
+#         form = SignUpForm(request.POST)
+#         if form.is_valid():
+#             form.save()
+            
+#             return redirect('/workspace')
+#         else:
+#             print(form.errors)
+
+#     context = {
+#         'footer': True,
+#         'form': form,
+#     }
+#     template = 'signup.html'
+#     return render(request, template, context=context)
+
+def signup(request):
+    form = SignUpForm()
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
+        form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
-            
-            return redirect('/workspace')
-        else:
-            print(form.errors)
-
-    context = {
-        'footer': True,
-        'form': form,
-    }
-    template = 'signup.html'
-    return render(request, template, context=context)
-
-def signup(request):
-    form = UserCreationForm()
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
             username = form.cleaned_data.get('username')
             messages.success(
                 request, 
