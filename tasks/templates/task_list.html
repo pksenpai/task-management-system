@@ -25,7 +25,7 @@
             aria-valuemin="0"
             aria-valuemax="100"
             style="width: 100%; "
-            id="pb">
+            taskid="{{ task.id }}">
           </div>
         </div>
         {% else %}
@@ -39,7 +39,7 @@
             aria-valuemin="0"
             aria-valuemax="100"
             style="width: 0%; "
-            id="pb">
+            taskid="{{ task.id }}">
           </div>
         </div>
         {% endif %}
@@ -54,7 +54,7 @@
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
           <div class="text-center">
             <li class="tg-list-item cbb">
-              <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked="true"/>
+              <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked="true" taskid="{{ task.id }}" onclick="pb_range(this)"/>
               <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
             </li>
           </div>
@@ -68,7 +68,7 @@
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
           <div class="text-center">
             <div class="tg-list-item cbb">
-              <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+              <input class="tgl tgl-skewed" id="cb3" type="checkbox" taskid="{{ task.id }}" onclick="pb_range(this)"/>
               <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
             </div>
           </div>
@@ -80,6 +80,17 @@
   </div>
 </div>
 <script>
+  function pb_range(element){
+    var taskId = element.getAttribute("taskid")
+    var select_progres = document.querySelector('div[taskid="' + taskId + '"]')
+    if ( element.checked ) {
+      select_progres.style.width="100%";
+    } else {
+      select_progres.style.width="0%";
+    }
+  } 
+
+{% comment %} 
   let progresbar = document.getElementById("pb")
   let checkbox = document.getElementById("cb3");
   checkbox.addEventListener( "change", () => {
@@ -88,7 +99,7 @@
     } else {
       progresbar.style.width="0%";
     }
- });
+ }); {% endcomment %}
 </script>
 
 {% endblock %}
