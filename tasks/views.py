@@ -9,7 +9,12 @@ from .models import *
 """\________________________TASK________________________/"""
 @login_required
 def task_list(request, id):
-    return HttpResponse(f'<h1>Hello {id}!!!</h1>')
+    tasks = Task.objects.filter(workspace__id=id).order_by('-status')
+    context = {
+        'tasks': tasks
+    }
+    template = 'task_list.html'
+    return render(request, template, context=context)
     
 def add_task(request, slug): ...
 def update_task(request, slug): ...

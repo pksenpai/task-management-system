@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block header_setting %}
+  <link rel="stylesheet" href="{% static 'toggle_checkbox.css' %}">
+{% endblock %}
+
+{% block title %} TASKS {% endblock %}
+
+{% block body %}
+<div class="container px-4 px-lg-5 mt-5">
+  <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    {% for task in tasks %}
+    <div class="col mb-5">
+      <div class="card h-100 shadow-lg" style="background-color: rgb(22, 74, 65);">
+        <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
+        {% if task.status %}
+        <div class="badge position-absolute p-0 bg-{{ task.color }}" style="top: 0.5rem; right: 0.5rem;">
+          <img class="" src="{% static "fin_task.png" %}" alt="status_pic" width="35" heigth="40">
+        </div>
+        <div class="progress rounded-0">
+          <div 
+            class="progress-bar progress-bar-striped progress-bar-animated bg-{{ task.color }}" 
+            role="progressbar" 
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 100%; "
+            id="pb">
+          </div>
+        </div>
+        {% else %}
+        <div class="badge position-absolute p-0 bg-{{ task.color }}" style="top: 0.5rem; right: 0.5rem;">
+          <img class="" src="{% static "pending_task.jpg" %}" alt="status_pic" width="35" heigth="40">
+        </div>
+        <div class="progress rounded-0">
+          <div 
+            class="progress-bar progress-bar-striped progress-bar-animated bg-{{ task.color }}" 
+            role="progressbar" 
+            aria-valuemin="0"
+            aria-valuemax="100"
+            style="width: 0%; "
+            id="pb">
+          </div>
+        </div>
+        {% endif %}
+        <div class="card-body p-4">
+          <div class="text-center">
+            <h4 class="fw-bolder text-{{ task.color }} mb-0">{{ task.title }}</h4>
+          </div>
+        </div>
+        {% if task.status %}
+        <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>
+        <br class="mb-2 mt-0">
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+          <div class="text-center">
+            <li class="tg-list-item cbb">
+              <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked="true"/>
+              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
+            </li>
+          </div>
+        </div>
+        {% else %}
+        <div class="text-center">
+          <div class="text-info fw-custom blockquote-footer">{{ task.due_date }}</div>
+          <div class="text-white mt-4">{{ task.description }}</div>
+        </div>
+        <br class="mb-2 mt-0">
+        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+          <div class="text-center">
+            <div class="tg-list-item cbb">
+              <input class="tgl tgl-skewed" id="cb3" type="checkbox"/>
+              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+<script>
+  let progresbar = document.getElementById("pb")
+  let checkbox = document.getElementById("cb3");
+  checkbox.addEventListener( "change", () => {
+    if ( checkbox.checked ) {
+      progresbar.style.width="100%";
+    } else {
+      progresbar.style.width="0%";
+    }
+ });
+</script>
+
+{% endblock %}
+<form method="POST"> {% csrf_token %}
+  <button class="w-100 btn btn-warning btn-lg" type="submit">SUBMIT</button>
+</form>

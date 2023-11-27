@@ -1,4 +1,5 @@
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 
 
@@ -17,7 +18,7 @@ class SignUpForm(UserCreationForm):
             'id': 'username',
             'name': 'username',
             'placeholder': 'Username',
-            'required': ''
+            'required': '',
         })
         self.fields['password1'].widget.attrs.update({
             'type': 'password',
@@ -25,7 +26,7 @@ class SignUpForm(UserCreationForm):
             'id': 'password1',
             'name': 'password1',
             'placeholder': 'set-password',
-            'required': ''
+            'required': '',
         })
         self.fields['password2'].widget.attrs.update({
             'type': 'password',
@@ -33,7 +34,7 @@ class SignUpForm(UserCreationForm):
             'id': 'password2',
             'name': 'password2',
             'placeholder': 'check-password',
-            'required': ''
+            'required': '',
         })
         self.fields['first_name'].widget.attrs.update({
             'type': 'text',
@@ -53,15 +54,62 @@ class SignUpForm(UserCreationForm):
             'id': 'email',
             'name': 'email',
             'placeholder': 'you@example.com',
-            'required': ''
+            'required': '',
         })
         
         """\________________________Input-Attrs________________________/"""
 
         # username --> type="text" class="form-control" id="username" placeholder="Username" name="username" required
-        # password1 --> type="password" class="form-control" id="password" placeholder="Password" name="password" required=""
+        # password1 --> type="password" class="form-control" id="password1" placeholder="set-password" name="password1" required=""
+        # password2 --> type="password" class="form-control" id="password2" placeholder="check-password" name="password2" required=""
         
         # first_name --> type="text" class="form-control" id="firstName" name="firstname"
         # last_name --> type="text" class="form-control" id="lastName" name="lastname" placeholder="" value="" required=""
+        # email --> type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
+    
+class LoginForm(AuthenticationForm):
+
+    class Meta:
+        model = User
+        fields = ['username', 'password',]
+        # fields = '__all__'
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control',
+            'id': 'username',
+            'name': 'username',
+            'placeholder': 'Username',
+            'required': '',
+            'data-key': 'jafar',
+        })
+        
+        self.fields['password'].widget.attrs.update({
+            'type': 'password',
+            'class': 'form-control',
+            'id': 'password',
+            'name': 'password',
+            'placeholder': 'Password',
+            'required': '',
+            'data-key': 'jafar',
+        })
+        
+        # self.fields["password"].widget.attrs['class'] = 'form-control'
+        
+        # self.fields['email'].widget.attrs.update({
+        #     'type': 'email',
+        #     'class': 'form-control',
+        #     'id': 'email',
+        #     'name': 'email',
+        #     'placeholder': 'you@example.com',
+        #     'required': ''
+        # })
+        
+        """\________________________Input-Attrs________________________/"""
+
+        # username --> type="text" class="form-control" id="username" placeholder="Username" name="username" required
+        # password1 --> type="password" class="form-control" id="password" placeholder="Password" name="password" required=""
         # email --> type="email" class="form-control" id="email" name="email" placeholder="you@example.com"
     

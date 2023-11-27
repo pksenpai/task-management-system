@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="{% static 'bootstrap.bundle.min.js' %}">
   <link rel="stylesheet" href="{% static 'bootstrap-icons.css' %}">
 
-  {% block header-setting %}{% endblock %}
+  {% block header_setting %}{% endblock %}
   <title>{% block title %}TMS{% endblock %}</title>
 </head>
 <!-- content-card for cards -->
@@ -37,7 +37,7 @@
   
           <ul class="nav col-lg-auto ms-lg-auto me-3">
             <li><a href="/" class="nav-link px-2 text-warning">HOME</a></li>
-            <li><a href="/workspaces/" class="nav-link px-2 text-white">Workspace</a></li>
+            <li><a href="/workspace/" class="nav-link px-2 text-white">Workspace</a></li>
             <li><a href="/faqs" class="nav-link px-2 text-white">MyTask</a></li>
             <li>
               <!-- <a href="/about" class="nav-link px-2 text-white">Invite</a> -->
@@ -52,17 +52,17 @@
           </form> -->
           
           <div class="text-end">
-            {% if login %}
+            {% if user.is_authenticated %}
             <div class="dropdown text-end">
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{% static "004.png" %}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
               <ul class="dropdown-menu text-small" style="">
-                <li><a class="dropdown-item" href="#">New project...</a></li>
+                <li><a class="dropdown-item" href="#">New Workspace</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li><a class="dropdown-item" href="#">Profile</a></li>
                 <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Sign out</a></li>
+                <li><a class="dropdown-item" href="{% url "users:logout" %}">Logout</a></li>
               </ul>
             </div>
             {% else %}
@@ -91,7 +91,7 @@
   
       <ul class="nav col-lg-auto ms-lg-auto me-3">
         <li><a href="/" class="nav-link px-2 text-white">home</a></li>
-        <li><a href="/workspaces/" class="nav-link px-2 text-white">workspace</a></li>
+        <li><a href="/workspace/" class="nav-link px-2 text-white">workspace</a></li>
         <li><a href="/faqs" class="nav-link px-2 text-white">tasks</a></li>
         </li>
       </ul>

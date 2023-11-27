@@ -4,29 +4,31 @@
 {% block title %} WORKSPACE {% endblock %}
 
 {% block body %}
-<!-- <div class="mx-5 my-5 border" style="background-color: rgb(0, 255, 195);"> -->
-<div class="row m-5 pt-5 ps-5 row-cols-1 row-cols-sm-2 row-cols-md-3">
-  <div class="col-lg-4 col-md-5 h-100 m-auto mt-3 mb-5 d-flex align-items-stretch" height="100">
-  {% for workspace in pws %}
-  
-    <!-- <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark">VIP!</span> -->
-    <div class="content-card m-auto h-100 ps-5 d-flex flex-wrap" id="body">
-      <div class="card rounded-4 m-5" style="width:300px;">
-        <button type="button" class="btn-lg-white position-relative me-2 rounded-4">
-          <a href="{{ workspace.name|slugify }}" class="text-white" style="text-decoration: none;">
-            <div class="card-body rounded-4 pt-2 px-2" style="background-color: rgb(22, 74, 65);">
-              <h3 class="card-title my-auto text-center h-100">
-                <strong class="mx-auto ">{{ workspace.name }}</strong>
-              </h3>
-              <p class="card-text mb-2 mt-3 px-3">members: {{ workspace.member_count }}</p>
-              <p class="card-text mb-2 py-1 px-3 text-center">{{ workspace.description }}</p>
-            </div>
-          </a>
-        </button>
+<div class="container px-4 px-lg-5 mt-5">
+  <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+    {% for workspace in pws %}
+    <div class="col mb-5">
+      <div class="card h-100 shadow-lg text-white" style="background-color: rgb(22, 74, 65);">
+        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ workspace.category }}</div>
+          <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
+          <div class="card-body p-4">
+              <div class="text-center">
+                  <h5 class="fw-bolder text-info">{{ workspace.name }}</h5>
+
+                  <span class="text-info fw-custom">members: {{ workspace.member_count }}</span>
+                  <br class="mb-2">
+                  <br class="mb-2">
+                  <br class="mb-2">
+
+                  <span class="text-white fw-custom">{{ workspace.description|truncatechars:80 }}</span>
+              </div>
+          </div>
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+              <div class="text-center"><a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:task_list" workspace.id %}">JOIN</a></div>
+          </div>
       </div>
     </div>
     {% endfor %}
   </div>
-</div>
 </div>
 {% endblock %}

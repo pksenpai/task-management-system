@@ -20,6 +20,8 @@
               </div>
             </div>
           </div>
+          {{ form.username.errors }}
+
 
           <div class="col-12">
             <label for="password1" class="form-label">Password</label>
@@ -30,6 +32,8 @@
               </div>
             </div>
           </div>
+          {{ form.password1.errors }}
+
 
           <div class="col-12">
             <label for="password2" class="form-label">Re-enter password</label>
@@ -40,6 +44,8 @@
               </div>
             </div>
           </div>
+          {{ form.password2.errors }}
+
 
           <div class="col-sm-6">
             <label for="firstName" class="form-label">First name</label>
@@ -48,6 +54,8 @@
               Valid first name is required.
             </div>
           </div>
+          {{ form.first_name.errors }}
+          
 
           <div class="col-sm-6">
             <label for="lastName" class="form-label">Last name</label>
@@ -56,6 +64,7 @@
               Valid last name is required.
             </div>
           </div>
+          {{ form.last_name.errors }}
 
 
           <div class="col-12">
@@ -65,7 +74,8 @@
               Please enter a valid email address for shipping updates.
             </div>
           </div>
-
+          {{ form.email.errors }}
+          
         <hr class="my-4">
 
         <button class="w-100 btn btn-warning btn-lg" type="submit">SUBMIT</button>
