@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block header_setting %}
+  <link rel="stylesheet" href="{% static 'search_bar.css' %}">
   <link rel="stylesheet" href="{% static 'toggle_checkbox.css' %}">
 {% endblock %}
 
@@ -9,6 +10,37 @@
 
 {% block body %}
 <div class="container px-4 px-lg-5 mt-5">
+  <div class="text-center mb-5 d-flex flex-wrap align-items-center justify-content-center gap-2">
+    
+    {% if status_filter == "all" %}
+    {% url 'tasks:all' as the_url %}
+    
+    {% elif status_filter == "done" %}
+    {% url 'tasks:done' as the_url %}
+    
+    {% elif status_filter == "pending" %}
+    {% url 'tasks:pending' as the_url %}
+    {% endif %}
+
+    <form class="mb-3" role="search" action="{{ the_url }}">
+      <div class="sb-animate">
+        <input  name="searched" type="search" class="form-control-dark" placeholder="Search Here..." aria-label="Search">
+        <div class="search"></div>
+      </div>
+    </form>
+    
+    <div class="row mt-3">
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:all' WsId %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">All Tasks</button>
+      </a>
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:done' WsId %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Done Tasks</button>
+      </a>
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:pending' WsId %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Pending Tasks</button>
+      </a>
+    </div>
+  </div>
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     {% for task in tasks %}
     <div class="col mb-5">

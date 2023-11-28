@@ -39,7 +39,7 @@ class Workspace(models.Model):
     public       = models.BooleanField(default=False)
     
     # RELATIONS.........................
-    category   = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='workspace')
+    category   = models.ForeignKey(Category, on_delete=models.CASCADE)
     tag        = models.ManyToManyField(Tag)
     members    = models.ManyToManyField(User, related_name='workspace')
     

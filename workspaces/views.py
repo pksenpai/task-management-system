@@ -18,7 +18,7 @@ def all_workspace_list(request):
             Q(name__icontains=searched) | 
             Q(tag__title__icontains=searched) | 
             Q(category__title__icontains=searched)
-        )
+        ).order_by('-member_count')
         context = {
             'pws': searched_workspaces
         }
