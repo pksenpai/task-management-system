@@ -1,10 +1,34 @@
 {% extends "base.html" %}
 {% load static %}
 
+{% block header_setting %}
+  <link rel="stylesheet" href="{% static 'search_bar.css' %}">
+{% endblock %}
 {% block title %} WORKSPACE {% endblock %}
 
 {% block body %}
-<div class="container px-4 px-lg-5 mt-5">
+<div class="container px-4 px-lg-5 mt-0">
+  <div class="text-center mb-0 d-flex flex-wrap align-items-center justify-content-center gap-2 py-5">
+    
+    <form class="mb-3" action="{% url 'workspaces:all' %}" role="search">
+      <div class="sb-animate">
+        <input  name="searched" type="search" class="form-control-dark" placeholder="Search Here..." aria-label="Search">
+        <div class="search"></div>
+      </div>
+    </form>
+    
+    <div class="row mt-3">
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:all" %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">All Workspaces</button>
+      </a>
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:joined" %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">My Workspaces</button>
+      </a>
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:own" %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Joined Workspaces</button>
+      </a>
+    </div>
+  </div>
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     {% for workspace in pws %}
     <div class="col mb-5">
@@ -31,4 +55,17 @@
     {% endfor %}
   </div>
 </div>
+<script>
+  const basicAutocomplete = document.querySelector('search-autocomplete');
+  const data = ['One', 'Two', 'Three', 'Four', 'Five'];
+  const dataFilter = (value) => {
+    return data.filter((item) => {
+      return item.toLowerCase().startsWith(value.toLowerCase());
+    });
+  };
+
+  new mdb.Autocomplete(basicAutocomplete, {
+    filter: dataFilter
+  });
+</script>
 {% endblock %}

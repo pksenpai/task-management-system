@@ -45,8 +45,8 @@ MY_APPS = [
 ]
 
 EXTRA_APPS = [
-    'crispy_forms',
-    'crispy_bootstrap5', 
+    # 'crispy_forms',
+    # 'crispy_bootstrap5', 
 ]
 
 INSTALLED_APPS = DJANGO_APPS + MY_APPS + EXTRA_APPS
@@ -150,7 +150,7 @@ STATICFILES_DIRS = [
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
-CRISPY_TEMPLATE_PACK = "bootstrap5"
+# CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+# CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = '/workspaces/'
