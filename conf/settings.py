@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-)l(=x_688q56e=bql_e0$6u#^e22s4m%+mhsgy2_@mul_*az6x
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
+INTERNAL_IPS = [
+    "127.0.0.1",
+]
 
 # Application definition
 DJANGO_APPS = [
@@ -45,6 +47,7 @@ MY_APPS = [
 ]
 
 EXTRA_APPS = [
+    "debug_toolbar",
     # 'crispy_forms',
     # 'crispy_bootstrap5', 
 ]
@@ -56,6 +59,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -154,3 +158,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 LOGIN_REDIRECT_URL = '/workspaces/'
+LOGOUT_REDIRECT_URL = '/' 

@@ -33,4 +33,5 @@ urlpatterns = [
     path('workspace/', include('workspaces.urls')),  #WORKSPACE
     path('workspace/id/', include('tasks.urls')),    #TASKS
     
+    path("__debug__/", include("debug_toolbar.urls")),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

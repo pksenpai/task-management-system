@@ -1,17 +1,23 @@
-from django.shortcuts import render, HttpResponse
-from django.db.models import Q
-from django.contrib.auth import authenticate, login, logout
+from django.shortcuts import render, HttpResponse, redirect, reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
-
+from django.db.models import Q
+from django.contrib import messages
+from .forms import *
 from .models import *
 
 
 """\__________________________WORKSPACE__________________________/"""
 
+def public_ws_query():
+    return Workspace.objects.filter(public=True).order_by('-member_count')
+
 """\______________________ALL______________________/"""
 def all_workspace_list(request):
     searched = request.GET.get('searched')
+    style = {
+        'pb': 'pb-4',
+        'mb': 'mb-4',
+    }
     if searched:
         searched_workspaces = Workspace.objects.filter(
             Q(public=True), 
@@ -20,13 +26,15 @@ def all_workspace_list(request):
             Q(category__title__icontains=searched)
         ).order_by('-member_count')
         context = {
+            'style': style,
             'pws': searched_workspaces
         }
     
     else:    
-        public_workspaces = Workspace.objects.filter(public=True).order_by('-member_count')
+        public_workspaces = public_ws_query()
         context = {
-            'pws': public_workspaces
+            'style': style,
+            'pws': public_workspaces,
         }
     
     template = 'workspace_list.html'
@@ -36,28 +44,57 @@ def all_workspace_list(request):
 @login_required
 def joined_workspace_list(request):
     
-    joined_workspaces = Workspace.objects.filter(members__username=True).order_by('-member_count')
+    style = {
+        'pb': 'pb-4',
+        'mb': 'mb-4',
+    }
+    joined_workspaces = public_ws_query()
     context = {
-        'pws': joined_workspaces
+        'style': style,
+        'pws': joined_workspaces,
     }
     template = 'workspace_list.html'
     return render(request, template, context=context)
 
 """\______________________OWN______________________/"""
 @login_required
-def own_workspace_list(request):
-    public_workspaces = Workspace.objects.filter(public=True).order_by('-member_count') # add host field
+def own_workspace_list(request): # add host field
+    if request.method == "POST":
+        form = AddNewWorkspaceForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(
+                request, 
+                f'your Workspace created Successfully! :D'
+            )
+            return redirect(reverse('workspaces:own'))
+    
+    style = {
+        'bottom': 'border-bottom-0',
+    }
+    public_workspaces =  public_ws_query()
+    form = AddNewWorkspaceForm() # Add new ws Form
     context = {
-        'pws': public_workspaces
+        'style': style,
+        'pws': public_workspaces,
+        'form': form,
     }
     template = 'workspace_list.html'
     return render(request, template, context=context)
 
-def search_workspace(request, title): ...
 
-@login_required
-def add_workspace(request): ...
-
+# @login_required
+# def add_workspace(request):
+#     form = AddNewWorkspaceForm(request.POST or None)
+#     if form.is_valid():
+#         form.save()
+    
+#     context = {
+#         'form': form
+#     }
+#     template = 'workspace_list.html'
+#     return render(request, template, context)
+    
 @login_required
 def update_workspace(request): ...
 

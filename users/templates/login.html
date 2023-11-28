@@ -21,7 +21,8 @@
             </div>
           </div>
         </div>
-
+        {{ form.username.errors }}
+        
         <div class="col-12">
           <label for="password" class="form-label">Password</label>
           <div class="input-group has-validation">
@@ -30,6 +31,8 @@
               Your password is required.
             </div>
           </div>
+          {{ form.password.errors }}
+
           <div class="form-check">
               <input type="checkbox" class="form-check-input" id="exampleCheck1">
               <label class="form-check-label" for="exampleCheck1">show me</label>

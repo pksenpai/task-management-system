@@ -31,6 +31,7 @@ def all_tasks(request, id):
     template = 'task_list.html'
     return render(request, template, context=context)
 
+@login_required
 def done_tasks(request, id):
     searched = request.GET.get('searched')
     tasks = Task.objects.filter(
@@ -57,6 +58,7 @@ def done_tasks(request, id):
     template = 'task_list.html'
     return render(request, template, context=context)
 
+@login_required
 def pending_tasks(request, id):
     searched = request.GET.get('searched')
     tasks = Task.objects.filter(

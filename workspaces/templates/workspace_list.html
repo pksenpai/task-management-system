@@ -3,32 +3,103 @@
 
 {% block header_setting %}
   <link rel="stylesheet" href="{% static 'search_bar.css' %}">
+  <link rel="stylesheet" href="{% static 'modal.css' %}">
 {% endblock %}
 {% block title %} WORKSPACE {% endblock %}
 
 {% block body %}
 <div class="container px-4 px-lg-5 mt-0">
-  <div class="text-center mb-0 d-flex flex-wrap align-items-center justify-content-center gap-2 py-5">
+  <div class="text-center shadow-lg rounded-top-3 border border-warning {{ style.mb }} {{ style.pb }} {{ style.bottom }} mb-0 d-flex flex-wrap align-items-center justify-content-center gap-2" style="background-color: rgb(22, 74, 65);">
     
-    <form class="mb-3" action="{% url 'workspaces:all' %}" role="search">
+    {% comment %} SEARCH BAR {% endcomment %}
+    <form class="mb-3 pt-5" action="{% url 'workspaces:all' %}" role="search">
       <div class="sb-animate">
         <input  name="searched" type="search" class="form-control-dark" placeholder="Search Here..." aria-label="Search">
         <div class="search"></div>
       </div>
     </form>
     
+    {% comment %} FILTER BAR {% endcomment %}
     <div class="row mt-3">
       <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:all" %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">All Workspaces</button>
       </a>
-      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:joined" %}">
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:own" %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">My Workspaces</button>
       </a>
-      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:own" %}">
+      <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:joined" %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Joined Workspaces</button>
       </a>
     </div>
   </div>
+
+  {% comment %} add-update-delete OPTIONS {% endcomment %}
+  {% if request.path == "/workspace/own/" %}
+  <ul class="dropdown-menu d-block rounded-top-0 position-static mb-4 mx-0 border-warning border-top-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+    <li>
+      <a id="myButton" class="dropdown-item d-flex gap-2 align-items-center justify-content-center" href="#">
+        <img src="{% static "add.png" %}" width="30" height="30"/>
+        Add New
+        <img src="{% static "add.png" %}" width="30" height="30"/>
+      </a>
+    </li>
+    <li>
+      <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center" href="#">
+        <img src="{% static "update.png" %}" width="30" height="30"/>
+        Update
+        <img src="{% static "update.png" %}" width="30" height="30"/>
+      </a>
+    </li>
+    <li><hr class="dropdown-divider"></li>
+    <li>
+      <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center text-danger" href="#">
+        <img src="{% static "delete.png" %}" width="30" height="30"/>
+        Delete...
+        <img src="{% static "delete.png" %}" width="30" height="30"/>
+      </a>
+    </li>
+  </ul>
+  {% comment %} add-update-delete MODAL {% endcomment %}
+  <div id="myModal" class="modal align-content-center justify-content-center">
+    <div class="modal-content bg-dark">
+      <div class="text-white">
+        <h1>Add New Workspace</h1>
+        <form method=POST> {% csrf_token %}
+          <label class="form-label mt-3" for="name">Workspace Name</label>
+            {{ form.name }}
+
+            <label class="form-label mt-3" for="description">Description</label>
+            {{ form.description }}
+            
+            <label class="form-label mt-3" for="category">Category</label>
+            {{ form.category }}
+            
+            <label class="form-label mt-3" for="tag">Tags</label>
+            {{ form.tag }}
+            
+            <label class="form-label mt-3" for="public">Public?</label>
+            {{ form.public }}
+          
+          <br class="my-3">
+          <div class="text-start h3">
+            <button 
+              class="py-2 px-3 btn-lg btn-warning badge text-bg-warning rounded-pill" 
+              type="submit"> Add
+            </button>
+            <span class="close">
+              <button 
+                class="py-2 px-3 btn-lg btn-warning badge text-bg-danger rounded-pill" 
+                type="exit"> Cancel
+              </button>
+            </span>
+            {% comment %} <input class="bg-warning" type='submit' value='save'/> {% endcomment %}
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+  {% comment %} WORKSPACE CARD'S {% endcomment %}
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     {% for workspace in pws %}
     <div class="col mb-5">
@@ -48,7 +119,7 @@
               </div>
           </div>
           <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center"><a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:list" workspace.id %}">JOIN</a></div>
+              <div class="text-center"><a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">JOIN</a></div>
           </div>
       </div>
     </div>
@@ -56,6 +127,22 @@
   </div>
 </div>
 <script>
+  var myButton = document.getElementById("myButton");
+  var myModal = document.getElementById("myModal");
+  var closeButton = document.getElementsByClassName("close")[0];
+
+  function openModal() {
+    myModal.style.display = "block";
+  }
+
+  function closeModal() {
+    myModal.style.display = "none";
+  }
+
+  myButton.addEventListener("click", openModal);
+  closeButton.addEventListener("click", closeModal);
+</script>
+{% comment %} <script>
   const basicAutocomplete = document.querySelector('search-autocomplete');
   const data = ['One', 'Two', 'Three', 'Four', 'Five'];
   const dataFilter = (value) => {
@@ -67,5 +154,5 @@
   new mdb.Autocomplete(basicAutocomplete, {
     filter: dataFilter
   });
-</script>
+</script> {% endcomment %}
 {% endblock %}

@@ -21,10 +21,7 @@ def signup(request):
                 request, 
                 f'your Account created Successfully!'
             )
-            messages.success(
-                request, 
-                f'Welcome {username} :3'
-            )
+
             return redirect("/accounts/login/")    
         
     context = {
@@ -54,7 +51,11 @@ def login_view(request):
                 user = authenticate(request, username=username, password=password)
                 if user is not None:
                     login(request, user)
-                    return redirect('/workspace/')
+                    messages.success(
+                        request, 
+                        f'Welcome {username} <3'
+                    )
+                    return redirect('/workspace/all/')
                 else:
                     return render(request, template, context)
         
@@ -68,5 +69,5 @@ def login_view(request):
 @login_required
 def logout_view(request):
     logout(request)
-    return redirect('/accounts/login')
+    return redirect('/login/')
 
