@@ -30,7 +30,7 @@
         </div>
         {% else %}
         <div class="badge position-absolute p-0 bg-{{ task.color }}" style="top: 0.5rem; right: 0.5rem;">
-          <img class="" src="{% static "pending_task.jpg" %}" alt="status_pic" width="35" heigth="40">
+          <img class="" src="{% static "own_pending.png" %}" alt="status_pic" width="35" heigth="40">
         </div>
         <div class="progress rounded-0">
           <div 
@@ -49,18 +49,21 @@
           </div>
         </div>
         {% if task.status %}
-        <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>
+        <div class="text-center px-4">
+          <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>
+          <div class="text-white mt-4">{{ task.description }}</div>
+        </div>
         <br class="mb-2 mt-0">
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
           <div class="text-center">
             <li class="tg-list-item cbb">
-              <input class="tgl tgl-skewed" id="cb3" type="checkbox" checked="true" taskid="{{ task.id }}" onclick="pb_range(this)"/>
-              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
+              <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" checked="true" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
             </li>
           </div>
         </div>
         {% else %}
-        <div class="text-center">
+        <div class="text-center px-4">
           <div class="text-info fw-custom blockquote-footer">{{ task.due_date }}</div>
           <div class="text-white mt-4">{{ task.description }}</div>
         </div>
@@ -68,8 +71,8 @@
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
           <div class="text-center">
             <div class="tg-list-item cbb">
-              <input class="tgl tgl-skewed" id="cb3" type="checkbox" taskid="{{ task.id }}" onclick="pb_range(this)"/>
-              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb3"></label>
+              <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+              <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
             </div>
           </div>
         </div>
@@ -90,19 +93,10 @@
     }
   } 
 
-{% comment %} 
-  let progresbar = document.getElementById("pb")
-  let checkbox = document.getElementById("cb3");
-  checkbox.addEventListener( "change", () => {
-    if ( checkbox.checked ) {
-      progresbar.style.width="100%";
-    } else {
-      progresbar.style.width="0%";
-    }
- }); {% endcomment %}
 </script>
 
 {% endblock %}
 <form method="POST"> {% csrf_token %}
   <button class="w-100 btn btn-warning btn-lg" type="submit">SUBMIT</button>
 </form>
+
