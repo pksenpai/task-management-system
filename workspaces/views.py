@@ -9,7 +9,7 @@ from .models import *
 """\__________________________WORKSPACE__________________________/"""
 
 def public_ws_query():
-    return Workspace.objects.filter(public=True).order_by('-member_count')
+    return Workspace.objects.select_related('category').filter(public=True).order_by('-member_count')
 
 """\______________________ALL______________________/"""
 def all_workspace_list(request):
@@ -25,6 +25,7 @@ def all_workspace_list(request):
             Q(tag__title__icontains=searched) | 
             Q(category__title__icontains=searched)
         ).order_by('-member_count')
+        print('+' * 10, searched_workspaces)
         context = {
             'style': style,
             'pws': searched_workspaces
@@ -81,25 +82,4 @@ def own_workspace_list(request): # add host field
     }
     template = 'workspace_list.html'
     return render(request, template, context=context)
-
-
-# @login_required
-# def add_workspace(request):
-#     form = AddNewWorkspaceForm(request.POST or None)
-#     if form.is_valid():
-#         form.save()
-    
-#     context = {
-#         'form': form
-#     }
-#     template = 'workspace_list.html'
-#     return render(request, template, context)
-    
-@login_required
-def update_workspace(request): ...
-
-@login_required
-def remove_workspace(request): ...
-
-def workspace_member_count(request): ...
 

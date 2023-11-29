@@ -3,44 +3,112 @@
 
 {% block header_setting %}
   <link rel="stylesheet" href="{% static 'search_bar.css' %}">
+  <link rel="stylesheet" href="{% static 'modal.css' %}">
   <link rel="stylesheet" href="{% static 'toggle_checkbox.css' %}">
 {% endblock %}
 
 {% block title %} TASKS {% endblock %}
 
 {% block body %}
-<div class="container px-4 px-lg-5 mt-5">
-  <div class="text-center mb-5 d-flex flex-wrap align-items-center justify-content-center gap-2">
-    
-    {% if status_filter == "all" %}
-    {% url 'tasks:all' as the_url %}
-    
-    {% elif status_filter == "done" %}
-    {% url 'tasks:done' as the_url %}
-    
-    {% elif status_filter == "pending" %}
-    {% url 'tasks:pending' as the_url %}
-    {% endif %}
+<div class="container px-4 px-lg-5 mt-0">
+  {% comment %} SEARCH & FILTER BAR {% endcomment %}
+  <div class="text-center shadow-lg rounded-top-3 border border-warning {{ style.mb }} {{ style.pb }} {{ style.bottom }} mb-0 d-flex flex-wrap align-items-center justify-content-center gap-2" style="background-color: rgb(22, 74, 65);">
 
-    <form class="mb-3" role="search" action="{{ the_url }}">
+    {% comment %} SEARCH BAR {% endcomment %}
+    <form class="mb-3 pt-5" role="search" action="{{ request.path }}">
       <div class="sb-animate">
         <input  name="searched" type="search" class="form-control-dark" placeholder="Search Here..." aria-label="Search">
         <div class="search"></div>
       </div>
     </form>
     
+    {% comment %} FILTER BAR {% endcomment %}
     <div class="row mt-3">
-      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:all' WsId %}">
+      <a class="text-decoration-none text-dark col-3 text-center" href="{% url 'tasks:all' WsId %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">All Tasks</button>
       </a>
-      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:done' WsId %}">
+      <a class="text-decoration-none text-dark col-3 text-center" href="{% url 'tasks:done' WsId %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Done Tasks</button>
       </a>
-      <a class="text-decoration-none text-dark col-4 text-center" href="{% url 'tasks:pending' WsId %}">
+      <a class="text-decoration-none text-dark col-3 text-center" href="{% url 'tasks:pending' WsId %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">Pending Tasks</button>
+      </a>
+      <a class="text-decoration-none text-dark col-3 text-center" href="{% url 'tasks:mytasks' WsId %}">
+        <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">My Tasks</button>
       </a>
     </div>
   </div>
+    
+    {% comment %} add-update-delete OPTIONS {% endcomment %}
+    {% url "tasks:mytasks" WsId as myTasksUrl %}
+    {% if request.path == myTasksUrl %}
+    <ul class="dropdown-menu d-block rounded-top-0 position-static mb-4 mx-0 border-warning border-top-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+      <li>
+        <a id="myButton" class="dropdown-item d-flex gap-2 align-items-center justify-content-center">
+          <img src="{% static "add.png" %}" width="30" height="30"/>
+          Add New
+          <img src="{% static "add.png" %}" width="30" height="30"/>
+        </a>
+      </li>
+      <li>
+        <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center">
+          <img src="{% static "update.png" %}" width="30" height="30"/>
+          Update
+          <img src="{% static "update.png" %}" width="30" height="30"/>
+        </a>
+      </li>
+      <li><hr class="dropdown-divider"></li>
+      <li>
+        <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center text-danger">
+          <img src="{% static "delete.png" %}" width="30" height="30"/>
+          Delete...
+          <img src="{% static "delete.png" %}" width="30" height="30"/>
+        </a>
+      </li>
+    </ul>
+    {% comment %} add-update-delete MODAL {% endcomment %}
+    <div id="myModal" class="modal align-content-center justify-content-center">
+      <div class="modal-content bg-dark">
+        <div class="text-white">
+          <h1>Add New Workspace</h1>
+          <form method=POST> {% csrf_token %}
+            <label class="form-label mt-3" for="title">title</label>
+              {{ form.title }}
+  
+              <label class="form-label mt-3" for="description">Description</label>
+              {{ form.description }}
+              
+              <label class="form-label mt-3" for="due_date">due_date</label>
+              {{ form.due_date }}
+              
+              <label class="form-label mt-3" for="color">color</label>
+              {{ form.color }}
+              
+              <label class="form-label mt-3" for="hide">hide?</label>
+              {{ form.hide }}
+
+              {% comment %} <label class="form-label mt-3" for="hide">workspace!?</label>
+              {{ form.workspace }} {% endcomment %}
+
+            <br class="my-3">
+            <div class="text-start h3">
+              <button 
+                class="py-2 px-3 btn-lg btn-warning badge text-bg-warning rounded-pill" 
+                type="submit"> Add
+              </button>
+              <span class="close">
+                <button 
+                  class="py-2 px-3 btn-lg btn-warning badge text-bg-danger rounded-pill" 
+                  type="exit"> Cancel
+                </button>
+              </span>
+              {% comment %} <input class="bg-warning" type='submit' value='save'/> {% endcomment %}
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {% endif %}
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     {% for task in tasks %}
     <div class="col mb-5">
@@ -115,6 +183,7 @@
   </div>
 </div>
 <script>
+  {% comment %} Progress Bar Script {% endcomment %}
   function pb_range(element){
     var taskId = element.getAttribute("taskid")
     var select_progres = document.querySelector('div[taskid="' + taskId + '"]')
@@ -124,7 +193,21 @@
       select_progres.style.width="0%";
     }
   } 
+  {% comment %} Modal Script {% endcomment %}
+  var myButton = document.getElementById("myButton");
+  var myModal = document.getElementById("myModal");
+  var closeButton = document.getElementsByClassName("close")[0];
 
+  function openModal() {
+    myModal.style.display = "block";
+  }
+
+  function closeModal() {
+    myModal.style.display = "none";
+  }
+
+  myButton.addEventListener("click", openModal);
+  closeButton.addEventListener("click", closeModal);
 </script>
 
 {% endblock %}

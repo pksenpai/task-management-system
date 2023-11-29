@@ -24,6 +24,7 @@ class Task(models.Model):
     hide  = models.BooleanField(default=False)
     color = models.CharField(max_length=8, choices=COLOR_TASKS, default='white')
     # add force task
+    # owner
     
     # RELATIONS...............................
     workspace  = models.ForeignKey("workspaces.Workspace", on_delete=models.CASCADE, related_name='task')

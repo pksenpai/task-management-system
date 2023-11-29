@@ -40,7 +40,7 @@ class Workspace(models.Model):
     
     # RELATIONS.........................
     category   = models.ForeignKey(Category, on_delete=models.CASCADE)
-    tag        = models.ManyToManyField(Tag)
+    tag        = models.ManyToManyField(Tag, related_name='workspace')
     members    = models.ManyToManyField(User, related_name='workspace')
     
     def __str__(self) -> str:

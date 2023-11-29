@@ -45,33 +45,3 @@ class AddNewWorkspaceForm(forms.ModelForm):
             'class': 'block me-auto'
         })
 
-
-# class LoginForm(AuthenticationForm):
-
-#     class Meta:
-#         model = User
-#         fields = ['username', 'password',]
-#         # fields = '__all__'
-    
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.fields['username'].widget.attrs.update({
-#             'type': 'text',
-#             'class': 'form-control',
-#             'id': 'username',
-#             'name': 'username',
-#             'placeholder': 'Username',
-#             'required': '',
-#             'data-key': 'jafar',
-#         })
-        
-#         self.fields['password'].widget.attrs.update({
-#             'type': 'password',
-#             'class': 'form-control',
-#             'id': 'password',
-#             'name': 'password',
-#             'placeholder': 'Password',
-#             'required': '',
-#             'data-key': 'jafar',
-#         })
-
