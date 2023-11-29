@@ -4,10 +4,8 @@
 <head>
   <meta charset="utf-8" name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="bootstrap/bootstrap.min.css">
-  <link rel="stylesheet" href="bootstrap/bootstrap.bundle.min.js">
   <link rel="stylesheet" href="bootstrap/bootstrap-icons.css">
   <link rel="stylesheet" href="{% static 'bootstrap.min.css' %}">
-  <link rel="stylesheet" href="{% static 'bootstrap.bundle.min.js' %}">
   <link rel="stylesheet" href="{% static 'bootstrap-icons.css' %}">
 
   {% block header_setting %}{% endblock %}
@@ -37,8 +35,8 @@
   
           <ul class="nav col-lg-auto ms-lg-auto me-3">
             <li><a href="/" class="nav-link px-2 text-warning">HOME</a></li>
-            <li><a href="/workspace/all/" class="nav-link px-2 text-white">Workspace</a></li>
-            <li><a href="/faqs" class="nav-link px-2 text-white">MyTask</a></li>
+            <li><a href="/workspace/all/" class="nav-link px-2 text-white">Workspaces</a></li>
+            <li><a href="/faqs" class="nav-link px-2 text-white">MyTasks</a></li>
             <li>
               <!-- <a href="/about" class="nav-link px-2 text-white">Invite</a> -->
               <button type="button" class="btn text-white position-relative">
@@ -53,10 +51,9 @@
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{% static "004.png" %}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
-              <ul class="dropdown-menu text-small" style="">
-                <li><a class="dropdown-item" href="#">New Workspace</a></li>
-                <li><a class="dropdown-item" href="#">Settings</a></li>
+              <ul class="dropdown-menu text-small bg-warning">
                 <li><a class="dropdown-item" href="#">Profile</a></li>
+                <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item" href="{% url "users:logout" %}">Logout</a></li>
               </ul>
@@ -94,5 +91,6 @@
     </footer>
   </div>
   {% endif %}
+  <script src="{% static 'bootstrap.bundle.min.js' %}" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
