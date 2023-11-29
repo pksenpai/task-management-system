@@ -58,10 +58,13 @@ def joined_workspace_list(request):
 
 """\______________________OWN______________________/"""
 @login_required
-def own_workspace_list(request): # add host field
+def own_workspace_list(request):
     if request.method == "POST":
         form = AddNewWorkspaceForm(request.POST or None)
         if form.is_valid():
+            form_data = form.save(commit=False)
+            form_data.host = request.user
+            
             form.save()
             messages.success(
                 request, 

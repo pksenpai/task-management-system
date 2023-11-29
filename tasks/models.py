@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -20,11 +21,16 @@ class Task(models.Model):
     due_date    = models.DateTimeField()
     status      = models.BooleanField(default=False)
     
+    # PERMISSION..............................
+    owner                   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='task_owner') # WHO Created task with owner permissions
+    update_task_permission  = models.ManyToManyField(User, blank=True, related_name='tutp')
+    delete_task_permission  = models.ManyToManyField(User, blank=True, related_name='tstp')
+    functor_task_permission = models.ManyToManyField(User, blank=True, related_name='tftp')
+    
     # EXTRA...................................    
     hide  = models.BooleanField(default=False)
+    force = models.BooleanField(default=False)
     color = models.CharField(max_length=8, choices=COLOR_TASKS, default='white')
-    # add force task
-    # owner
     
     # RELATIONS...............................
     workspace  = models.ForeignKey("workspaces.Workspace", on_delete=models.CASCADE, related_name='task')

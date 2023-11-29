@@ -37,6 +37,7 @@
   {% comment %} add-update-delete OPTIONS {% endcomment %}
   {% if request.path == "/workspace/own/" %}
   <ul class="dropdown-menu d-block rounded-top-0 position-static mb-4 mx-0 border-warning border-top-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+    <li><hr class="dropdown-divider"></li>
     <li>
       <a id="myButton" class="dropdown-item d-flex gap-2 align-items-center justify-content-center">
         <img src="{% static "add.png" %}" width="30" height="30"/>
@@ -51,7 +52,6 @@
         <img src="{% static "update.png" %}" width="30" height="30"/>
       </a>
     </li>
-    <li><hr class="dropdown-divider"></li>
     <li>
       <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center text-danger">
         <img src="{% static "delete.png" %}" width="30" height="30"/>

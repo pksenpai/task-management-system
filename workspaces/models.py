@@ -30,9 +30,14 @@ class Tag(models.Model):
 
 class Workspace(models.Model): 
     # MAIN..............................
-    # host = models.CharField(max_length=150) # WHO Create Workspace with host permissions
-    name = models.CharField(max_length=100)
+    name        = models.CharField(max_length=100)
     description = models.TextField(blank=True)
+    
+    # PERMISSIONS.......................
+    host                   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wh') # WHO Created Workspace with host permissions
+    add_task_permission    = models.ManyToManyField(User, blank=True, related_name='watp')
+    update_task_permission = models.ManyToManyField(User, blank=True, related_name='wutp')
+    delete_task_permission = models.ManyToManyField(User, blank=True, related_name='wdtp')
     
     # EXTRA..............................
     member_count = models.IntegerField(default=1)
