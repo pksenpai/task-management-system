@@ -19,13 +19,12 @@ def all_workspace_list(request):
         'mb': 'mb-4',
     }
     if searched:
-        searched_workspaces = Workspace.objects.filter(
+        searched_workspaces = Workspace.objects.select_related('category').filter(
             Q(public=True), 
             Q(name__icontains=searched) | 
             Q(tag__title__icontains=searched) | 
             Q(category__title__icontains=searched)
-        ).order_by('-member_count')
-        print('+' * 10, searched_workspaces)
+        ).distinct().order_by('-member_count')
         context = {
             'style': style,
             'pws': searched_workspaces
