@@ -154,7 +154,7 @@ def Workspace_details(request, id):
     template = 'workspace_details.html'
     return render(request, template, context=context)
     
-
+@login_required
 def Workspace_update(request, id):
     workspace = Workspace.objects.get(id=id)
     form = UpdateWorkspaceForm(instance=workspace)
@@ -171,12 +171,14 @@ def Workspace_update(request, id):
             return redirect(reverse('workspaces:own'))
     
     context = {
+        'footer': True,
         'form': form,
         'ws': workspace
     }
     template = 'update_workspace.html'
     return render(request, template, context=context)
 
+@login_required
 def Workspace_delete(request, id):
     workspace = Workspace.objects.get(
         Q(id=id) & 

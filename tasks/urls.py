@@ -11,5 +11,7 @@ urlpatterns = [
     
     path('<int:wid>/update/<int:tid>/', task_update, name='update'),
     path('<int:wid>/delete/<int:tid>/', task_delete, name='delete'),
+    
+    path('all-tasks-of-mine/', atom, name='atom'),
 ]
 

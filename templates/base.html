@@ -36,7 +36,7 @@
           <ul class="nav col-lg-auto ms-lg-auto me-3">
             <li><a href="/" class="nav-link px-2 text-warning">HOME</a></li>
             <li><a href="/workspace/all/" class="nav-link px-2 text-white">Workspaces</a></li>
-            <li><a href="/faqs" class="nav-link px-2 text-white">MyTasks</a></li>
+            <li><a href="{% url "tasks:atom" %}" class="nav-link px-2 text-white">MyTasks</a></li>
             <li>
               <!-- <a href="/about" class="nav-link px-2 text-white">Invite</a> -->
               <button type="button" class="btn text-white position-relative">
@@ -78,7 +78,7 @@
   {% if footer %}
   <div class="position-absolute container top-100 start-50 translate-middle">
     <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 my-4 border-top">
-      <p class="col-md-4 mb-0 text-white">© 2023 Dev, PKPY</p>
+      <p class="col-md-4 mb-0 text-white">© 2023 | Dev by PKPY</p>
   
       <div class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto">
         <img class="bi me-2" src="{% static 'tms-logo.png' %}" width="55" height="50" aria-label="Bootstrap"/>
@@ -86,8 +86,8 @@
   
       <ul class="nav col-lg-auto ms-lg-auto me-3">
         <li><a href="/" class="nav-link px-2 text-white">home</a></li>
-        <li><a href="/workspace/" class="nav-link px-2 text-white">workspace</a></li>
-        <li><a href="/faqs" class="nav-link px-2 text-white">tasks</a></li>
+        <li><a href="{% url "workspaces:all" %}" class="nav-link px-2 text-white">workspaces</a></li>
+        <li><a href="{% url "tasks:atom" %}" class="nav-link px-2 text-white">myTasks</a></li>
         </li>
       </ul>
     </footer>

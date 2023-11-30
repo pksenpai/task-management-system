@@ -174,6 +174,7 @@ def task_update(request, wid, tid):
             return redirect(reverse('tasks:mytasks', args=[wid]))
     
     context = {
+        'footer': True,
         'WsId': wid,
         'task': task,
         'form': form,
@@ -183,7 +184,46 @@ def task_update(request, wid, tid):
     
 @login_required
 def task_delete(request, wid, tid):
-    task = Task.objects.get(Q(id=tid) & Q(owner=request.user) | Q(edit_task_permission=request.user))
+    task = Task.objects.get(
+        Q(id=tid) &
+        Q(owner=request.user) |
+        Q(edit_task_permission=request.user)
+    )
     task.delete()
     return redirect(reverse('tasks:mytasks', args=[wid]))
 
+@login_required
+def atom(request):
+    searched = request.GET.get('searched')
+    
+    all_tasks_of_mine = Task.objects.filter(
+        Q(owner=request.user) | 
+        Q(functor_task_permission=request.user)
+    ).order_by('status')
+    
+    style = {
+        'pb': 'pb-4',
+        'mb': 'mb-4',
+    } 
+    if searched:
+        searched_tasks = all_tasks_of_mine.filter( 
+            title__icontains=searched
+        )
+        context = {
+            'footer': True,
+            'style': style,
+            'WsId': id,
+            'tasks': searched_tasks,
+        }
+    
+    else:
+        context = {
+            'footer': True,
+            'style': style,
+            'WsId': id,
+            'tasks': all_tasks_of_mine,
+        }
+        
+    template = 'all_tasks_of_mine.html'
+    return render(request, template, context=context)
+    
