@@ -156,21 +156,20 @@ def Workspace_details(request, id):
     
 
 def Workspace_update(request, id):
-    form = UpdateWorkspaceForm()
+    workspace = Workspace.objects.get(id=id)
+    form = UpdateWorkspaceForm(instance=workspace)
     if request.method == "POST":
-        form = UpdateWorkspaceForm(request.POST or None)
+        form = UpdateWorkspaceForm(request.POST, instance=workspace)
+        print('================', request.POST)
         if form.is_valid():
-            form_data = form.save(commit=False)
-            form_data.host = request.user
-            
             form.save()
+            
             messages.success(
                 request, 
-                f'your Workspace created Successfully! :D'
+                f'your Workspace update Successfully! :D'
             )
             return redirect(reverse('workspaces:own'))
     
-    workspace = Workspace.objects.get(id=id)
     context = {
         'form': form,
         'ws': workspace

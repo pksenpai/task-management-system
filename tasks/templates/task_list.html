@@ -142,11 +142,11 @@
           <div class="d-block rounded-top-0 position-static mb-2 mx-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
             <div class="card-footer border-top-0 bg-transparent">
               <div class="row text-center mx-4">
-                <a class="col p-0 btn btn-outline-warning rounded-end-0" href="{% url "tasks:update" WsId %}">
+                <a class="col p-0 btn btn-outline-warning rounded-end-0" href="{% url 'tasks:update' wid=WsId tid=task.id %}">
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url "tasks:mytasks" WsId %}">
+                <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url 'tasks:update' wid=WsId tid=task.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </a>
@@ -188,7 +188,7 @@
             </form>
 
           {% endif %}
-        {% else %}
+        {% elif not task.hide %}
           {% if task.status %}
           <div class="text-center px-4">
             <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>
@@ -220,7 +220,7 @@
           {% endif %}
         {% endif %}
       </div>
-      {% else %}
+      {% elif not task.hide %}
       <div class="col mb-5">
         <div class="card h-100 shadow-lg" style="background-color: rgb(22, 74, 65);">
           <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
@@ -270,11 +270,11 @@
             <div class="d-block rounded-top-0 position-static mb-2 mx-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
               <div class="card-footer border-top-0 bg-transparent">
                 <div class="row text-center mx-4">
-                  <a class="col p-0 btn btn-outline-warning rounded-end-0" href="{% url "tasks:update" WsId %}">
+                  <a class="col p-0 btn btn-outline-warning rounded-end-0" href="{% url 'tasks:update' wid=WsId tid=task.id %}">
                     <img src="{% static "update.png" %}" width="30" height="30"/>
                     Update
                   </a>
-                  <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url "tasks:mytasks" WsId %}">
+                  <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url 'tasks:delete' wid=WsId tid=task.id %}">
                     Delete
                     <img src="{% static "delete.png" %}" width="30" height="30"/>
                   </a>
@@ -315,7 +315,7 @@
               </form>
   
             {% endif %}
-          {% else %}
+          {% elif not task.hide %}
             {% if task.status %}
             <div class="text-center px-4">
               <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>

@@ -12,8 +12,8 @@ class AddNewTaskForm(forms.ModelForm):
             'title',
             'description',
             'due_date',
-            'hide',
             'color',
+            'hide',
         ]
         
     def __init__(self, *args, **kwargs):
@@ -44,14 +44,49 @@ class AddNewTaskForm(forms.ModelForm):
                 'class': 'form-control w-50'
             }
         )
+        self.fields['color'].widget.attrs.update({
+            'class': 'd-block me-auto'
+        })
         self.fields['hide'].widget.attrs.update({
             'class': 'd-block me-auto'
+        })
+
+class UpdateTaskForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = [
+            'title',
+            'description',
+            'color',
+        ]
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+              
+        initial_due_date = None
+        if 'instance' in kwargs and kwargs['instance']:
+            initial_due_date = kwargs['instance'].due_date
+          
+        self.fields['title'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control disable',
+            'id': 'title',
+            'name': 'title',
+            'placeholder': 'Title...',
+        })
+        self.fields['description'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control',
+            'id': 'description',
+            'name': 'description',
+            'placeholder': 'Description...',
         })
         self.fields['color'].widget.attrs.update({
             'class': 'd-block me-auto'
         })
 
-
+        
 class StatusCheckForm(forms.ModelForm):
 
     class Meta:

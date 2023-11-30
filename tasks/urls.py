@@ -9,7 +9,7 @@ urlpatterns = [
     path('<int:id>/pending/', pending_tasks, name='pending'),
     path('<int:id>/mytasks/', own_tasks, name='mytasks'),
     
-    path('<int:id>/update/', task_update, name='update'),
-    path('<int:id>/delete/', task_delete, name='delete'),
+    path('<int:wid>/update/<int:tid>/', task_update, name='update'),
+    path('<int:wid>/delete/<int:tid>/', task_delete, name='delete'),
 ]
 

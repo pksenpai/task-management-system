@@ -9,9 +9,9 @@ class AddNewWorkspaceForm(forms.ModelForm):
         fields = [
             'name',
             'description',
-            'public',
             'category',
             'tag',
+            'public',
         ]
     
     def __init__(self, *args, **kwargs):
@@ -52,6 +52,8 @@ class UpdateWorkspaceForm(forms.ModelForm):
         fields = [
             'name',
             'description',
+            'category',
+            'tag',
             'public',
         ]
     
@@ -72,6 +74,16 @@ class UpdateWorkspaceForm(forms.ModelForm):
             'name': 'description',
             'placeholder': 'Workspace about...',
             'required': '',
+        })
+        self.fields['category'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control disabled',
+            'id': 'category',
+            'name': 'category',
+            # 'disabled': '',
+        })
+        self.fields['tag'].widget.attrs.update({
+            'class': 'form-control disabled',
         })
         self.fields['public'].widget.attrs.update({
             'class': 'block me-auto'

@@ -1,28 +1,28 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} UPDATE-WORKSPACE {% endblock %}
+{% block title %} UPDATE-TASK {% endblock %}
 
 {% block body %}
 <div class="position-absolute text-white mt-5">
-  <h1 class="text-center">Update Workspace</h1>
-  <h2 class="text-center"><" {{ ws.name }} "></h2>
+  <h1 class="text-center">Update Task</h1>
+  <h2 class="text-center"><" {{ task.title }} "></h2>
   <form method=POST> {% csrf_token %}
     <div class="mx-5">
-      <label class="form-label mt-3" for="name">Workspace Name</label>
-        {{ form.name }}
+      <label class="form-label mt-3" for="title">Task Title</label>
+        {{ form.title }}
 
         <label class="form-label mt-3" for="description">Description</label>
         {{ form.description }}
-
-        <label class="form-label mt-3" for="public">tag</label>
-        {{ form.tag }}
         
-        <label class="form-label mt-3" for="public">category</label>
-        {{ form.category }}
-
-        <label class="form-label mt-3" for="public">Public?</label>
-        {{ form.public }}
+        <label class="d-block form-label mt-3" for="due_date">Due Date</label>
+        <input type="text" class="form-control w-50" value="{{ task.due_date }}" disabled>
+        
+        <label class="form-label mt-3" for="color">Color</label>
+        {{ form.color }}
+        
+        <label class="form-label mt-3" for="hide">Hide?</label>
+        <input type="checkbox" checked={{ task.hide }} disabled>
       
       <br class="my-3">
       <div class="text-start h3 mb-0">
@@ -34,7 +34,7 @@
       </div>
     </div>
   </form>
-      <a class="text-start h3" href="{% url "workspaces:own" %}">          
+      <a class="text-start h3" href="{% url "tasks:mytasks" WsId %}">          
         <button 
           class="ms-5 mt-0 py-2 px-3 btn-lg btn-warning badge text-bg-danger rounded-pill" 
           type="exit"> Back...

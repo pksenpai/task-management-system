@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 
-from .forms import AddNewTaskForm, StatusCheckForm
+from .forms import *
 from .models import Task
 from workspaces.models import Workspace
 
@@ -158,6 +158,28 @@ def own_tasks(request, id):
     return render(request, template, context=context)
 
 
-def task_update(request, id): ...
-def task_delete(request, id): ...
+def task_update(request, wid, tid):
+    task = Task.objects.get(id=tid)
+    form = UpdateTaskForm(instance=task)
+    if request.method == "POST":
+        form = UpdateTaskForm(request.POST, instance=task)
+        print('==================',form.is_valid())
+        if form.is_valid():
+            form.save()
+            
+            messages.success(
+                request, 
+                f'your Task updated Successfully! :D'
+            )
+            return redirect(reverse('tasks:mytasks', args=[wid]))
+    
+    context = {
+        'WsId': wid,
+        'task': task,
+        'form': form,
+    }
+    template = 'update_task.html'
+    return render(request, template, context=context)
+    
+def task_delete(request, wid, tid): ...
 
