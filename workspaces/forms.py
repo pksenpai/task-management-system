@@ -45,3 +45,35 @@ class AddNewWorkspaceForm(forms.ModelForm):
             'class': 'block me-auto'
         })
 
+class UpdateWorkspaceForm(forms.ModelForm):
+
+    class Meta:
+        model = Workspace
+        fields = [
+            'name',
+            'description',
+            'public',
+        ]
+    
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control',
+            'id': 'name',
+            'name': 'name',
+            'placeholder': 'Name...',
+            'required': '',
+        })
+        self.fields['description'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control',
+            'id': 'description',
+            'name': 'description',
+            'placeholder': 'Workspace about...',
+            'required': '',
+        })
+        self.fields['public'].widget.attrs.update({
+            'class': 'block me-auto'
+        })
+    
