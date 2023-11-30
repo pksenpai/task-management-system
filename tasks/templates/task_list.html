@@ -132,9 +132,12 @@
             <span class="text-white d-block fw-custom">
               Owner: [ <span class="text-warning">{{ task.owner }}</span> ]
             </span>
-            <span class="text-white d-block fw-custom">
-              Functors: [ <span class="text-warning">{{ task.functor_task_permission.get }}</span> ]
-            </span>
+            <span class="text-white d-block fw-custom"> 
+              Functors: [ <span class="text-warning">
+                {% for usr in task.functor_task_permission.all %}{{ usr.username }} 
+                <span class="text-white"> | </span>{% endfor %}
+                        </span> ]
+            </span> 
             <br class="mb-2">
           </div>
         </div>
@@ -146,10 +149,10 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url 'tasks:update' wid=WsId tid=task.id %}">
+                <button onclick="del(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
-                </a>
+                </button>
               </div>
             </div>
           </div>
@@ -261,7 +264,10 @@
                 Owner: [ <span class="text-warning">{{ task.owner }}</span> ]
               </span>
               <span class="text-white d-block fw-custom">
-                Functors: [ <span class="text-warning">{{ task.functor_task_permission.get }}</span> ]
+                Functors: [ <span class="text-warning">
+                  {% for usr in task.functor_task_permission.all %}{{ usr.username }} 
+                  <span class="text-white"> | </span>{% endfor %}
+                          </span> ]
               </span>
               <br class="mb-2">
             </div>
@@ -274,10 +280,10 @@
                     <img src="{% static "update.png" %}" width="30" height="30"/>
                     Update
                   </a>
-                  <a class="col p-0 btn btn-outline-danger rounded-start-0" href="{% url 'tasks:delete' wid=WsId tid=task.id %}">
+                  <button onclick="del(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
                     Delete
                     <img src="{% static "delete.png" %}" width="30" height="30"/>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
@@ -362,24 +368,36 @@
     } else {
       select_progres.style.width="0%";
     }
-  } 
+  }
   {% comment %} Modal Script {% endcomment %}
+  
   var myButton = document.getElementById("myButton");
   var myModal = document.getElementById("myModal");
   var closeButton = document.getElementsByClassName("close")[0];
-
+  
   function openModal() {
     myModal.style.display = "block";
   }
-
+  
   function closeModal() {
     myModal.style.display = "none";
   }
-
+  
   myButton.addEventListener("click", openModal);
   closeButton.addEventListener("click", closeModal);
-</script>
 
+
+  function del(element) {
+    var userResponse = confirm("Are You Sure?");
+    var link = element.getAttribute("link");
+
+    if (userResponse) {
+        window.location.href = link;
+    } else {
+
+    }
+  }
+</script>
 {% endblock %}
 <form method="POST"> {% csrf_token %}
   <button class="w-100 btn btn-warning btn-lg" type="submit">SUBMIT</button>

@@ -177,5 +177,12 @@ def Workspace_update(request, id):
     template = 'update_workspace.html'
     return render(request, template, context=context)
 
-def Workspace_delete(request, id): ...
-
+def Workspace_delete(request, id):
+    workspace = Workspace.objects.get(
+        Q(id=id) & 
+        Q(host=request.user) | 
+        Q(edit_ws_permission=request.user)
+    )
+    workspace.delete()
+    return redirect(reverse('workspaces:own'))
+    

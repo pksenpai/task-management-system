@@ -157,9 +157,9 @@ def own_tasks(request, id):
     template = 'task_list.html'
     return render(request, template, context=context)
 
-
+@login_required
 def task_update(request, wid, tid):
-    task = Task.objects.get(id=tid)
+    task = Task.objects.get(Q(id=tid) & Q(owner=request.user) | Q(edit_task_permission=request.user))
     form = UpdateTaskForm(instance=task)
     if request.method == "POST":
         form = UpdateTaskForm(request.POST, instance=task)
@@ -181,5 +181,9 @@ def task_update(request, wid, tid):
     template = 'update_task.html'
     return render(request, template, context=context)
     
-def task_delete(request, wid, tid): ...
+@login_required
+def task_delete(request, wid, tid):
+    task = Task.objects.get(Q(id=tid) & Q(owner=request.user) | Q(edit_task_permission=request.user))
+    task.delete()
+    return redirect(reverse('tasks:mytasks', args=[wid]))
 
