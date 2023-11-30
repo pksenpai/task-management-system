@@ -23,8 +23,7 @@ class Task(models.Model):
     
     # PERMISSION..............................
     owner                   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='task_owner') # WHO Created task with owner permissions
-    update_task_permission  = models.ManyToManyField(User, blank=True, related_name='tutp')
-    delete_task_permission  = models.ManyToManyField(User, blank=True, related_name='tstp')
+    edit_task_permission  = models.ManyToManyField(User, blank=True, related_name='tutp')
     functor_task_permission = models.ManyToManyField(User, blank=True, related_name='tftp')
     
     # EXTRA...................................    

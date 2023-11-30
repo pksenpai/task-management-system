@@ -77,3 +77,9 @@ class UpdateWorkspaceForm(forms.ModelForm):
             'class': 'block me-auto'
         })
     
+class JoinMemberForm(forms.ModelForm):
+
+    class Meta:
+        model = Workspace
+        fields = ['members', 'member_count']
+    

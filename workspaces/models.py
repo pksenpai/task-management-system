@@ -36,8 +36,7 @@ class Workspace(models.Model):
     # PERMISSIONS.......................
     host                   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='wh') # WHO Created Workspace with host permissions
     add_task_permission    = models.ManyToManyField(User, blank=True, related_name='watp')
-    update_task_permission = models.ManyToManyField(User, blank=True, related_name='wutp')
-    delete_task_permission = models.ManyToManyField(User, blank=True, related_name='wdtp')
+    edit_ws_permission = models.ManyToManyField(User, blank=True, related_name='wutp')
     
     # EXTRA..............................
     member_count = models.IntegerField(default=1)

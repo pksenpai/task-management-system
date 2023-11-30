@@ -124,8 +124,36 @@ def own_workspace_list(request):
     template = 'workspace_list.html'
     return render(request, template, context=context)
 
-def Workspace_details(request, id): ...
+def Workspace_details(request, id):
+    workspace_detail = Workspace.objects.get(id=id)
+    tags             = Tag.objects.prefetch_related('workspace').filter(workspace__id=id)
 
+    if request.method == 'POST': # BUG FIX THIS...<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+        form = JoinMemberForm()
+        form.members = request.user
+        
+        number_of_members = Workspace.objects.get(id=id).member_count
+        print(number_of_members)
+        form.member_count = number_of_members + 1
+        
+        form.save()
+        
+        messages.success(
+            request, 
+            f'Welcome to {workspace_detail.name} '
+        )
+        return redirect(reverse('tasks:all', args=[id]))
+        
+    context = {
+        'footer': True,
+        'WsId': id,
+        'tags': tags,
+        'wsd': workspace_detail,
+    }
+    
+    template = 'workspace_details.html'
+    return render(request, template, context=context)
+    
 
 def Workspace_update(request, id):
     form = UpdateWorkspaceForm()
