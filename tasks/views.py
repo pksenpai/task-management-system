@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
 
-from .forms import AddNewTaskForm
+from .forms import AddNewTaskForm, StatusCheckForm
 from .models import Task
 from workspaces.models import Workspace
 
@@ -102,30 +102,38 @@ def pending_tasks(request, id):
 def own_tasks(request, id):
     searched = request.GET.get('searched')
     tasks = Task.objects.filter(
-        Q(workspace__id=id) & 
-        Q(status=False)
-    )
+        Q(workspace__id=id),
+        Q(owner=request.user),
+    ).order_by('due_date')
     style = {
         'bottom': 'border-bottom-0',
     }
     form = AddNewTaskForm()
+    status = StatusCheckForm()
     if request.method == 'POST':
         form = AddNewTaskForm(request.POST or None)
-        if form.is_valid():
-            
-            form_data = form.save(commit=False)
-            # ws_name = Workspace.objects.get(id=id)
-            
-            form_data.workspace_id = id
-            form_data.owner_id = request.user.id
-            
-            form.save()
-            
-            messages.success(
-                request, 
-                f'your Task created Successfully! :D'
-            )
-            return redirect(reverse('tasks:mytasks', args=[id]))
+        if form:
+            if form.is_valid():
+                
+                form_data = form.save(commit=False)
+                
+                form_data.workspace_id = id
+                form_data.owner_id = request.user.id
+                
+                form.save()
+                
+                messages.success(
+                    request, 
+                    f'your Task created Successfully! :D'
+                )
+                return redirect(reverse('tasks:mytasks', args=[id]))
+        else:
+            status = StatusCheckForm(request.POST or None)
+            if status:
+                if status.is_valid():
+                    status.save()
+                    return redirect(reverse('tasks:mytasks', args=[id]))
+                    
         
     if searched:
         searched_tasks = tasks.filter( 

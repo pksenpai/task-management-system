@@ -52,3 +52,10 @@ class AddNewTaskForm(forms.ModelForm):
         })
 
 
+class StatusCheckForm(forms.ModelForm):
+
+    class Meta:
+        model = Task
+        fields = ['status']
+        
+        
