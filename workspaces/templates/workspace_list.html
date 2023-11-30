@@ -21,7 +21,7 @@
     </form>
     
     {% comment %} FILTER BAR {% endcomment %}
-    <div class="row mt-3">
+    <div class="row mt-3 d-wrap d-flex">
       <a class="text-decoration-none text-dark col-4 text-center" href="{% url "workspaces:all" %}">
         <button class="p-3 btn-lg btn-warning mx-4 badge text-bg-warning rounded-pill" type="button">All Workspaces</button>
       </a>
@@ -43,20 +43,6 @@
         <img src="{% static "add.png" %}" width="30" height="30"/>
         Add New
         <img src="{% static "add.png" %}" width="30" height="30"/>
-      </a>
-    </li>
-    <li>
-      <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center">
-        <img src="{% static "update.png" %}" width="30" height="30"/>
-        Update
-        <img src="{% static "update.png" %}" width="30" height="30"/>
-      </a>
-    </li>
-    <li>
-      <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center text-danger">
-        <img src="{% static "delete.png" %}" width="30" height="30"/>
-        Delete...
-        <img src="{% static "delete.png" %}" width="30" height="30"/>
       </a>
     </li>
   </ul>
@@ -103,31 +89,157 @@
   {% comment %} WORKSPACE CARD'S {% endcomment %}
   <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
     {% for workspace in pws %}
+    {% comment %} Joined Page {% endcomment %}
+    {% if request.path == "/workspace/joined/" and request.user in workspace.members.all %}
     <div class="col mb-5">
       <div class="card h-100 shadow-lg text-white" style="background-color: rgb(22, 74, 65);">
         <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ workspace.category }}</div>
           <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
           <div class="card-body p-4">
-              <div class="text-center">
-                  <h5 class="fw-bolder text-info">{{ workspace.name }}</h5>
+            <div class="text-center">
+              <h3 class="fw-bolder text-warning">{{ workspace.name }}</h3>
 
-                  <span class="text-info fw-custom">members: {{ workspace.member_count }}</span>
-                  <br class="mb-2">
-                  <br class="mb-2">
-                  <br class="mb-2">
+              <span class="text-white d-block fw-custom">
+                Host: [ <span class="text-warning">{{ workspace.host }}</span> ]
+              </span>
+              <span class="text-white d-block fw-custom">
+                Members: [ <span class="text-warning">{{ workspace.member_count }}</span> ]
+              </span>
+              <br class="mb-2">
 
-                  <span class="text-white fw-custom">{{ workspace.description|truncatechars:80 }}</span>
+              <span class="text-white fw-custom">{{ workspace.description|truncatechars:80 }}</span>
+            </div>
+          </div>
+          <div class="card-footer mb-2 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">
+                <img src="{% static "add.png" %}" width="30" height="30"/>
+                OPEN
+                <img src="{% static "add.png" %}" width="30" height="30"/>  
+              </a>
+            </div>
+          </div>
+    {% comment %} Own Page  {% endcomment %}
+    {% elif request.path == "/workspace/own/" and workspace.host == request.user %}
+    <div class="col mb-5">
+      <div class="card h-100 shadow-lg text-white" style="background-color: rgb(22, 74, 65);">
+        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ workspace.category }}</div>
+          <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
+          <div class="card-body p-4">
+            <div class="text-center">
+              <h3 class="fw-bolder text-warning">{{ workspace.name }}</h3>
+
+              <span class="text-white d-block fw-custom">
+                Host: [ <span class="text-warning">{{ workspace.host }}</span> ]
+              </span>
+              <span class="text-white d-block fw-custom">
+                Members: [ <span class="text-warning">{{ workspace.member_count }}</span> ]
+              </span>
+              <br class="mb-2">
+
+              <span class="text-white fw-custom">{{ workspace.description|truncatechars:80 }}</span>
+            </div>
+          </div>
+          <div class="d-block rounded-top-0 position-static mb-2 mx-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+            <div class="card-footer border-top-0 bg-transparent">
+              <div class="row text-center mx-4">
+                <a class="col btn btn-outline-warning rounded-end-0" href="{% url "workspaces:update" workspace.id %}">
+                  <img src="{% static "update.png" %}" width="30" height="30"/>
+                  Update
+                </a>
+                <a class="col btn btn-outline-danger rounded-start-0" href="{% url "tasks:all" workspace.id %}">
+                  Delete
+                  <img src="{% static "delete.png" %}" width="30" height="30"/>
+                </a>
               </div>
+            </div>
+            <div class="d-block card-footer border-top-0 bg-transparent">
+              <div class="text-center">
+                <a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">
+                  <img src="{% static "add.png" %}" width="30" height="30"/>
+                  OPEN
+                  <img src="{% static "add.png" %}" width="30" height="30"/>  
+                </a>
+              </div>
+            </div>
           </div>
-          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-              <div class="text-center"><a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">JOIN</a></div>
-          </div>
+        </div>
       </div>
+
+    {% comment %} All Page  {% endcomment %}
+    {% elif request.path == "/workspace/all/" %}
+    <div class="col mb-5">
+      <div class="card h-100 shadow-lg text-white" style="background-color: rgb(22, 74, 65);">
+        <div class="badge bg-dark text-white position-absolute" style="top: 0.5rem; right: 0.5rem">{{ workspace.category }}</div>
+          <img class="card-img-top" src="{% static "001.png" %}" alt="workspace_pic">
+          <div class="card-body p-4">
+            <div class="text-center">
+              <h3 class="fw-bolder text-warning">{{ workspace.name }}</h3>
+
+              <span class="text-white d-block fw-custom">
+                Host: [ <span class="text-warning">{{ workspace.host }}</span> ]
+              </span>
+              <span class="text-white d-block fw-custom">
+                Members: [ <span class="text-warning">{{ workspace.member_count }}</span> ]
+              </span>
+              <br class="mb-2">
+
+              <span class="text-white fw-custom">{{ workspace.description|truncatechars:80 }}</span>
+            </div>
+          </div>
+          
+          {% if workspace.host == request.user %}
+          <div class="d-block rounded-top-0 position-static mb-2 mx-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+            <div class="card-footer border-top-0 bg-transparent">
+              <div class="row text-center mx-4">
+                <a class="col btn btn-outline-warning rounded-end-0" href="{% url "workspaces:update" workspace.id %}">
+                  <img src="{% static "update.png" %}" width="30" height="30"/>
+                  Update
+                </a>
+                <a class="col btn btn-outline-danger rounded-start-0" href="{% url "tasks:all" workspace.id %}">
+                  Delete
+                  <img src="{% static "delete.png" %}" width="30" height="30"/>
+                </a>
+              </div>
+            </div>
+            <div class="d-block card-footer border-top-0 bg-transparent">
+              <div class="text-center">
+                <a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">
+                  <img src="{% static "add.png" %}" width="30" height="30"/>
+                  OPEN
+                  <img src="{% static "add.png" %}" width="30" height="30"/>  
+                </a>
+              </div>
+            </div>
+          </div>
+          {% elif request.user in workspace.members.all %}
+          <div class="card-footer mb-2 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "tasks:all" workspace.id %}">
+                <img src="{% static "add.png" %}" width="30" height="30"/>
+                OPEN
+                <img src="{% static "add.png" %}" width="30" height="30"/>  
+              </a>
+            </div>
+          </div>
+          {% else %}
+          <div class="card-footer mb-2 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-warning mt-auto fw-custom px-5" href="{% url "workspaces:details" workspace.id %}">
+                <img src="{% static "visit.png" %}" width="30" height="30"/>
+                VISIT
+                <img src="{% static "visit.png" %}" width="30" height="30"/>
+              </a>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
-</div>
-<script>
+  <script>
   var myButton = document.getElementById("myButton");
   var myModal = document.getElementById("myModal");
   var closeButton = document.getElementsByClassName("close")[0];
