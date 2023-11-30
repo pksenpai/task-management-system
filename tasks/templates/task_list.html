@@ -50,21 +50,6 @@
           <img src="{% static "add.png" %}" width="30" height="30"/>
         </a>
       </li>
-      <li>
-        <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center">
-          <img src="{% static "update.png" %}" width="30" height="30"/>
-          Update
-          <img src="{% static "update.png" %}" width="30" height="30"/>
-        </a>
-      </li>
-      <li><hr class="dropdown-divider"></li>
-      <li>
-        <a class="dropdown-item d-flex gap-2 align-items-center justify-content-center text-danger">
-          <img src="{% static "delete.png" %}" width="30" height="30"/>
-          Delete...
-          <img src="{% static "delete.png" %}" width="30" height="30"/>
-        </a>
-      </li>
     </ul>
     {% comment %} add-update-delete MODAL {% endcomment %}
     <div id="myModal" class="modal align-content-center justify-content-center">
@@ -87,9 +72,6 @@
               <label class="form-label mt-3" for="hide">hide?</label>
               {{ form.hide }}
 
-              {% comment %} <label class="form-label mt-3" for="hide">workspace!?</label>
-              {{ form.workspace }} {% endcomment %}
-
             <br class="my-3">
             <div class="text-start h3">
               <button 
@@ -102,7 +84,6 @@
                   type="exit"> Cancel
                 </button>
               </span>
-              {% comment %} <input class="bg-warning" type='submit' value='save'/> {% endcomment %}
             </div>
           </form>
         </div>
@@ -148,6 +129,22 @@
             <h4 class="fw-bolder text-{{ task.color }} mb-0">{{ task.title }}</h4>
           </div>
         </div>
+        {% if task.owner == request.user %}
+        <div class="d-block rounded-top-0 position-static mb-2 mx-0 w-220px" data-bs-theme="dark" style="background-color: rgb(22, 74, 65);">
+          <div class="card-footer border-top-0 bg-transparent">
+            <div class="row text-center mx-4">
+              <a class="col btn btn-outline-warning rounded-end-0" href="{% url "tasks:update" WsId %}">
+                <img src="{% static "update.png" %}" width="30" height="30"/>
+                Update
+              </a>
+              <a class="col btn btn-outline-danger rounded-start-0" href="{% url "tasks:mytasks" WsId %}">
+                Delete
+                <img src="{% static "delete.png" %}" width="30" height="30"/>
+              </a>
+            </div>
+          </div>
+        </div>
+
         {% if task.status %}
         <div class="text-center px-4">
           <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>

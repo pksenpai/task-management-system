@@ -113,8 +113,12 @@ def own_tasks(request, id):
         form = AddNewTaskForm(request.POST or None)
         if form.is_valid():
             
-            task_data = form.save(commit=False)
-            task_data.workspace = Workspace.objects.get(id=id)
+            form_data = form.save(commit=False)
+            # ws_name = Workspace.objects.get(id=id)
+            
+            form_data.workspace_id = id
+            form_data.owner_id = request.user.id
+            
             form.save()
             
             messages.success(
@@ -145,4 +149,7 @@ def own_tasks(request, id):
     template = 'task_list.html'
     return render(request, template, context=context)
 
+
+def task_update(request, id): ...
+def task_delete(request, id): ...
 
