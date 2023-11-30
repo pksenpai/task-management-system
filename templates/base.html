@@ -51,7 +51,9 @@
               <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{% static "004.png" %}" alt="mdo" width="32" height="32" class="rounded-circle">
               </a>
-              <ul class="dropdown-menu text-small bg-warning">
+              <ul class="dropdown-menu text-small bg-info">
+                <li><b class="dropdown-item text-center fw-bold pt-0">< {{ request.user }} ></b></li>
+                <li><hr class="dropdown-divider mt-0"></li>
                 <li><a class="dropdown-item" href="#">Profile</a></li>
                 <li><a class="dropdown-item" href="#">Settings</a></li>
                 <li><hr class="dropdown-divider"></li>
