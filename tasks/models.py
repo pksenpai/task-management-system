@@ -28,7 +28,7 @@ class Task(models.Model):
     
     # EXTRA...................................    
     hide  = models.BooleanField(default=False)
-    force = models.BooleanField(default=False)
+    force = models.BooleanField(default=False) # will be a feature ########## after beta version
     color = models.CharField(max_length=8, choices=COLOR_TASKS, default='white')
     
     # RELATIONS...............................

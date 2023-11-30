@@ -55,6 +55,8 @@ class UpdateWorkspaceForm(forms.ModelForm):
             'category',
             'tag',
             'public',
+            'add_task_permission',
+            'edit_ws_permission',
         ]
     
     def __init__(self, *args, **kwargs):
@@ -80,13 +82,24 @@ class UpdateWorkspaceForm(forms.ModelForm):
             'class': 'form-control disabled',
             'id': 'category',
             'name': 'category',
-            # 'disabled': '',
         })
         self.fields['tag'].widget.attrs.update({
             'class': 'form-control disabled',
         })
         self.fields['public'].widget.attrs.update({
             'class': 'block me-auto'
+        })
+        self.fields['add_task_permission'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control text-primary',
+            'id': 'add_task_permission',
+            'name': 'add_task_permission',
+        })
+        self.fields['edit_ws_permission'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control text-danger',
+            'id': 'edit_ws_permission',
+            'name': 'edit_ws_permission',
         })
     
 class JoinMemberForm(forms.ModelForm):

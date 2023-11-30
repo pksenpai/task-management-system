@@ -23,6 +23,12 @@
         
         <label class="form-label mt-3" for="hide">Hide?</label>
         <input type="checkbox" checked={{ task.hide }} disabled>
+
+        <label class="d-block form-label mt-3 text-primary" for="functor_task_permission">Functor Permission</label>
+        {{ form.functor_task_permission }}
+        
+        <label class="d-block form-label mt-3 text-danger" for="edit_task_permission">Edit Permission</label>
+        {{ form.edit_task_permission }}
       
       <br class="my-3">
       <div class="text-start h3 mb-0">

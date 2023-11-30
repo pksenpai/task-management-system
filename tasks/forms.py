@@ -59,6 +59,8 @@ class UpdateTaskForm(forms.ModelForm):
             'title',
             'description',
             'color',
+            'edit_task_permission',
+            'functor_task_permission',
         ]
         
     def __init__(self, *args, **kwargs):
@@ -84,6 +86,18 @@ class UpdateTaskForm(forms.ModelForm):
         })
         self.fields['color'].widget.attrs.update({
             'class': 'd-block me-auto'
+        })
+        self.fields['edit_task_permission'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control text-danger',
+            'id': 'edit_task_permission',
+            'name': 'edit_task_permission',
+        })
+        self.fields['functor_task_permission'].widget.attrs.update({
+            'type': 'text',
+            'class': 'form-control text-primary',
+            'id': 'functor_task_permission',
+            'name': 'functor_task_permission',
         })
 
         
