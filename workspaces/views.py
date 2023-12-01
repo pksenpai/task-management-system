@@ -171,7 +171,6 @@ def Workspace_update(request, id):
             return redirect(reverse('workspaces:own'))
     
     context = {
-        'footer': True,
         'form': form,
         'ws': workspace
     }
@@ -185,6 +184,17 @@ def Workspace_delete(request, id):
         Q(host=request.user) | 
         Q(edit_ws_permission=request.user)
     )
-    workspace.delete()
+    if workspace:
+        workspace.delete()
+        messages.success(
+            request, 
+            f'Your workspace has been Successfully deleted!'
+        )
+    else:
+        messages.error(
+            request, 
+            f'Sorry! This workspace has Not been deleted! :D'
+        )
+        
     return redirect(reverse('workspaces:own'))
     

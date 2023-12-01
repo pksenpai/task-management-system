@@ -147,7 +147,7 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <button onclick="del(this)" class="col btn btn-outline-danger rounded-start-0" link="{% url "workspaces:delete" workspace.id %}">
+                <button onclick="callAlert(this)" class="col btn btn-outline-danger rounded-start-0" link="{% url "workspaces:delete" workspace.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </button>
@@ -196,7 +196,7 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <button onclick="del(this)" class="col btn btn-outline-danger rounded-start-0" link="{% url "workspaces:delete" workspace.id %}">
+                <button onclick="callAlert(this)" class="col btn btn-outline-danger rounded-start-0" link="{% url "workspaces:delete" workspace.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </button>
@@ -255,7 +255,7 @@
   myButton.addEventListener("click", openModal);
   closeButton.addEventListener("click", closeModal);
 
-  function del(element) {
+  function callAlert(element) {
     var userResponse = confirm("Are You Sure?");
     var link = element.getAttribute("link");
 

@@ -149,7 +149,7 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <button onclick="del(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
+                <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </button>
@@ -167,7 +167,7 @@
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
               <div class="text-center">
                 <li class="tg-list-item cbb">
-                  <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" checked="true" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+                  <input onclick="callAlert(this)" backLink="{% url "tasks:mytasks" WsId %}" link="{% url "tasks:complete" wid=WsId tid=task.id %}" class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" checked="true" taskid="{{ task.id }}"/>
                   <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
                 </li>
               </div>
@@ -182,7 +182,7 @@
             <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
               <div class="text-center">
                 <div class="tg-list-item cbb">
-                  <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+                  <input onclick="callAlert(this)" backLink="{% url "tasks:mytasks" WsId %}" link="{% url "tasks:complete" wid=WsId tid=task.id %}" class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" taskid="{{ task.id }}"/>
                   <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
                 </div>
               </div>
@@ -280,7 +280,7 @@
                     <img src="{% static "update.png" %}" width="30" height="30"/>
                     Update
                   </a>
-                  <button onclick="del(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
+                  <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
                     Delete
                     <img src="{% static "delete.png" %}" width="30" height="30"/>
                   </button>
@@ -298,7 +298,7 @@
               <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 <div class="text-center">
                   <li class="tg-list-item cbb">
-                    <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" checked="true" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+                    <input onclick="callAlert(this)" backLink="{% url "tasks:mytasks" WsId %}" link="{% url "tasks:complete" wid=WsId tid=task.id %}" class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" checked="true" taskid="{{ task.id }}"/>
                     <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
                   </li>
                 </div>
@@ -313,7 +313,7 @@
               <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                 <div class="text-center">
                   <div class="tg-list-item cbb">
-                    <input class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" taskid="{{ task.id }}" onclick="pb_range(this)"/>
+                    <input onclick="callAlert(this)" backLink="{% url "tasks:mytasks" WsId %}" link="{% url "tasks:complete" wid=WsId tid=task.id %}" class="tgl tgl-skewed" id="cb{{ task.id }}" type="checkbox" taskid="{{ task.id }}"/>
                     <label class="tgl-btn rounded-5" data-tg-off="To-Do" data-tg-on="DONE!" for="cb{{ task.id }}"></label>
                   </div>
                 </div>
@@ -359,6 +359,10 @@
   </div>
 </div>
 <script>
+  {% comment %} Time Sleep {% endcomment %}
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
   {% comment %} Progress Bar Script {% endcomment %}
   function pb_range(element){
     var taskId = element.getAttribute("taskid")
@@ -369,8 +373,8 @@
       select_progres.style.width="0%";
     }
   }
+
   {% comment %} Modal Script {% endcomment %}
-  
   var myButton = document.getElementById("myButton");
   var myModal = document.getElementById("myModal");
   var closeButton = document.getElementsByClassName("close")[0];
@@ -386,15 +390,20 @@
   myButton.addEventListener("click", openModal);
   closeButton.addEventListener("click", closeModal);
 
-
-  function del(element) {
+  {% comment %} <Are you Sure?> Alert {% endcomment %}
+  async function callAlert(element) {
     var userResponse = confirm("Are You Sure?");
     var link = element.getAttribute("link");
-
+    var backLink = element.getAttribute("backLink");
+    
     if (userResponse) {
-        window.location.href = link;
-    } else {
+      pb_range(element);
 
+      await sleep(400);
+
+      window.location.href = link;
+    } else {
+      window.location.href = backLink;
     }
   }
 </script>

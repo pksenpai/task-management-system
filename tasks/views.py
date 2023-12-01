@@ -174,7 +174,6 @@ def task_update(request, wid, tid):
             return redirect(reverse('tasks:mytasks', args=[wid]))
     
     context = {
-        'footer': True,
         'WsId': wid,
         'task': task,
         'form': form,
@@ -189,8 +188,52 @@ def task_delete(request, wid, tid):
         Q(owner=request.user) |
         Q(edit_task_permission=request.user)
     )
-    task.delete()
+    if task:
+        task.delete()
+        messages.success(
+            request, 
+            f'Your task has been Successfully deleted!'
+        )
+    else:
+        messages.error(
+            request, 
+            f'Sorry! This task has Not been deleted! :D'
+        )
+        
     return redirect(reverse('tasks:mytasks', args=[wid]))
+
+@login_required
+def task_complete(request, wid, tid):
+    task = Task.objects.get(
+        Q(id=tid) &
+        Q(owner=request.user) |
+        Q(functor_task_permission=request.user)
+    )
+    if task:
+        if task.status:
+            task.status = False
+            messages.success(
+                request,
+                f'Your task has been Back to uncomplete! :('
+            )
+            task.save()            
+            
+        else:
+            task.status = True
+            messages.success(
+                request,
+                f'Congratulations! Your task has been Successfully completed! :D'
+            )
+            task.save()
+        
+    else:
+        messages.error(
+            request, 
+            f'Sorry! This task has Not been done! :D'
+        )
+                
+    return redirect(reverse('tasks:mytasks', args=[wid]))
+    
 
 @login_required
 def atom(request):
