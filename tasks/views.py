@@ -1,6 +1,7 @@
 from django.shortcuts import render, HttpResponse, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils import timezone
 from django.db.models import Q
 
 from .forms import *
@@ -8,10 +9,15 @@ from .models import Task
 from workspaces.models import Workspace
 
 
+def date_now():
+    return timezone.now().date()
+
 """\________________________TASK________________________/"""
 @login_required
 def all_tasks(request, id):
     searched = request.GET.get('searched')
+    tzn = date_now()
+    
     style = {
         'pb': 'pb-4',
         'mb': 'mb-4',
@@ -21,6 +27,7 @@ def all_tasks(request, id):
             title__icontains=searched
         ).order_by('-status')
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': searched_tasks,
@@ -29,6 +36,7 @@ def all_tasks(request, id):
     else:    
         tasks = Task.objects.filter(workspace__id=id).order_by('-status')
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': tasks,
@@ -39,6 +47,7 @@ def all_tasks(request, id):
 @login_required
 def done_tasks(request, id):
     searched = request.GET.get('searched')
+    tzn = date_now()
     style = {
         'pb': 'pb-4',
         'mb': 'mb-4',
@@ -52,6 +61,7 @@ def done_tasks(request, id):
             title__icontains=searched
         )
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': searched_tasks,
@@ -59,6 +69,7 @@ def done_tasks(request, id):
         
     else:    
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': tasks,
@@ -70,6 +81,7 @@ def done_tasks(request, id):
 @login_required
 def pending_tasks(request, id):
     searched = request.GET.get('searched')
+    tzn = date_now()
     tasks = Task.objects.filter(
         Q(workspace__id=id) & 
         Q(status=False)
@@ -84,6 +96,7 @@ def pending_tasks(request, id):
             title__icontains=searched
         )
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': searched_tasks,
@@ -91,6 +104,7 @@ def pending_tasks(request, id):
         
     else:    
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': tasks,
@@ -101,6 +115,7 @@ def pending_tasks(request, id):
 @login_required
 def own_tasks(request, id):
     searched = request.GET.get('searched')
+    tzn = date_now()
     tasks = Task.objects.filter(
         Q(workspace__id=id),
         Q(owner=request.user),
@@ -140,6 +155,7 @@ def own_tasks(request, id):
             title__icontains=searched
         )
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': searched_tasks,
@@ -148,6 +164,7 @@ def own_tasks(request, id):
         
     else:    
         context = {
+            'tzn': tzn,
             'style': style,
             'WsId': id,
             'tasks': tasks,
@@ -159,7 +176,12 @@ def own_tasks(request, id):
 
 @login_required
 def task_update(request, wid, tid):
-    task = Task.objects.get(Q(id=tid) & Q(owner=request.user) | Q(edit_task_permission=request.user))
+    task = Task.objects.select_related('workspace').get(
+        Q(id=tid) &
+        Q(pk=wid) &
+        Q(owner=request.user) |
+        Q(edit_task_permission=request.user)
+    )
     form = UpdateTaskForm(instance=task)
     if request.method == "POST":
         form = UpdateTaskForm(request.POST, instance=task)
@@ -183,8 +205,9 @@ def task_update(request, wid, tid):
     
 @login_required
 def task_delete(request, wid, tid):
-    task = Task.objects.get(
+    task = Task.objects.select_related('workspace').get(
         Q(id=tid) &
+        Q(pk=wid) &
         Q(owner=request.user) |
         Q(edit_task_permission=request.user)
     )
@@ -204,8 +227,9 @@ def task_delete(request, wid, tid):
 
 @login_required
 def task_complete(request, wid, tid):
-    task = Task.objects.get(
+    task = Task.objects.select_related('workspace').get(
         Q(id=tid) &
+        Q(pk=wid) &
         Q(owner=request.user) |
         Q(functor_task_permission=request.user)
     )
@@ -238,6 +262,7 @@ def task_complete(request, wid, tid):
 @login_required
 def atom(request):
     searched = request.GET.get('searched')
+    tzn = date_now()
     
     all_tasks_of_mine = Task.objects.filter(
         Q(owner=request.user) | 
@@ -253,6 +278,7 @@ def atom(request):
             title__icontains=searched
         )
         context = {
+            'tzn': tzn,
             'footer': True,
             'style': style,
             'WsId': id,
@@ -261,6 +287,7 @@ def atom(request):
     
     else:
         context = {
+            'tzn': tzn,
             'footer': True,
             'style': style,
             'WsId': id,

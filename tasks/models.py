@@ -1,7 +1,18 @@
 from django.contrib.auth.models import User
+from django.core.exceptions import ValidationError
+from datetime import date
+from django.utils import timezone
 from django.db import models
 
 
+@property
+def date_compare(self): # you still have time to do task
+    return date.today() < self.date    
+    
+def date_validation(value):
+    if value < timezone.now():
+        raise ValidationError("Please enter a future date! :3") # ADD pop-up to say error NEW FEATURE <<<<
+    
 COLOR_TASKS = [
     ('dark', 'black'),
     ('secondry', 'gray'),
@@ -18,12 +29,12 @@ class Task(models.Model):
     # MAIN...................................
     title       = models.CharField(max_length=200)
     description = models.TextField(blank=True)
-    due_date    = models.DateTimeField()
+    due_date    = models.DateTimeField(validators=[date_validation])
     status      = models.BooleanField(default=False)
     
     # PERMISSION..............................
     owner                   = models.ForeignKey(User, on_delete=models.CASCADE, related_name='task_owner') # WHO Created task with owner permissions
-    edit_task_permission  = models.ManyToManyField(User, blank=True, related_name='tutp')
+    edit_task_permission    = models.ManyToManyField(User, blank=True, related_name='tutp')
     functor_task_permission = models.ManyToManyField(User, blank=True, related_name='tftp')
     
     # EXTRA...................................    

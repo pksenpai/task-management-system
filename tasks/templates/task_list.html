@@ -149,7 +149,7 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
+                <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </button>
@@ -280,7 +280,7 @@
                     <img src="{% static "update.png" %}" width="30" height="30"/>
                     Update
                   </a>
-                  <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
+                  <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
                     Delete
                     <img src="{% static "delete.png" %}" width="30" height="30"/>
                   </button>
@@ -322,7 +322,7 @@
   
             {% endif %}
           {% elif not task.hide %}
-            {% if task.status %}
+            {% if task.status%}
             <div class="text-center px-4">
               <div class="text-info fw-custom blockquote-footer text-center"><del>{{ task.due_date }}</del></div>
               <div class="text-white mt-4">{{ task.description }}</div>
