@@ -279,7 +279,6 @@ def atom(request):
         )
         context = {
             'tzn': tzn,
-            'footer': True,
             'style': style,
             'WsId': id,
             'tasks': searched_tasks,
@@ -288,7 +287,6 @@ def atom(request):
     else:
         context = {
             'tzn': tzn,
-            'footer': True,
             'style': style,
             'WsId': id,
             'tasks': all_tasks_of_mine,
