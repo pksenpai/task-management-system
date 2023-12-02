@@ -3,11 +3,7 @@ from django.core.exceptions import ValidationError
 from datetime import date
 from django.utils import timezone
 from django.db import models
-
-
-@property
-def date_compare(self): # you still have time to do task
-    return date.today() < self.date    
+ 
     
 def date_validation(value):
     if value < timezone.now():

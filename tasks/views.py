@@ -178,7 +178,7 @@ def own_tasks(request, id):
 def task_update(request, wid, tid):
     task = Task.objects.select_related('workspace').get(
         Q(id=tid) &
-        Q(pk=wid) &
+        Q(workspace__id=wid) &
         Q(owner=request.user) |
         Q(edit_task_permission=request.user)
     )
@@ -207,7 +207,7 @@ def task_update(request, wid, tid):
 def task_delete(request, wid, tid):
     task = Task.objects.select_related('workspace').get(
         Q(id=tid) &
-        Q(pk=wid) &
+        Q(workspace__id=wid) &
         Q(owner=request.user) |
         Q(edit_task_permission=request.user)
     )
@@ -229,7 +229,7 @@ def task_delete(request, wid, tid):
 def task_complete(request, wid, tid):
     task = Task.objects.select_related('workspace').get(
         Q(id=tid) &
-        Q(pk=wid) &
+        Q(workspace__id=wid) &
         Q(owner=request.user) |
         Q(functor_task_permission=request.user)
     )
@@ -262,7 +262,7 @@ def task_complete(request, wid, tid):
 @login_required
 def atom(request):
     searched = request.GET.get('searched')
-    tzn = date_now()
+    tzn = date_now() # django date_time
     
     all_tasks_of_mine = Task.objects.filter(
         Q(owner=request.user) | 

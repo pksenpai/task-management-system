@@ -149,7 +149,7 @@
                   <img src="{% static "update.png" %}" width="30" height="30"/>
                   Update
                 </a>
-                <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url 'tasks:update' wid=WsId tid=task.id %}">
+                <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
                   Delete
                   <img src="{% static "delete.png" %}" width="30" height="30"/>
                 </button>
@@ -280,7 +280,7 @@
                     <img src="{% static "update.png" %}" width="30" height="30"/>
                     Update
                   </a>
-                  <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url 'tasks:delete' wid=WsId tid=task.id %}">
+                  <button onclick="callAlert(this)" class="col p-0 btn btn-outline-danger rounded-start-0" backLink="{% url "tasks:mytasks" WsId %}" link="{% url "tasks:delete" wid=WsId tid=task.id %}">
                     Delete
                     <img src="{% static "delete.png" %}" width="30" height="30"/>
                   </button>
@@ -391,24 +391,18 @@
   closeButton.addEventListener("click", closeModal);
 
   {% comment %} <Are you Sure?> Alert {% endcomment %}
-  async function callAlert(element) {
+  function callAlert(element) {
     var userResponse = confirm("Are You Sure?");
     var link = element.getAttribute("link");
     var backLink = element.getAttribute("backLink");
-    
+
     if (userResponse) {
-      pb_range(element);
-
-      await sleep(400);
-
       window.location.href = link;
     } else {
       window.location.href = backLink;
     }
-  }
+  } 
+
 </script>
 {% endblock %}
-<form method="POST"> {% csrf_token %}
-  <button class="w-100 btn btn-warning btn-lg" type="submit">SUBMIT</button>
-</form>
 
