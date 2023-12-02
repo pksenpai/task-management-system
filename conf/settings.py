@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-)l(=x_688q56e=bql_e0$6u#^e22s4m%+mhsgy2_@mul_*az6x
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['*', 'home.thronless.com']
 INTERNAL_IPS = [
     "127.0.0.1",
 ]
