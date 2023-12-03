@@ -124,6 +124,7 @@ def own_workspace_list(request):
     template = 'workspace_list.html'
     return render(request, template, context=context)
 
+@login_required
 def Workspace_details(request, id):
     workspace_detail = Workspace.objects.get(id=id)
     tags             = Tag.objects.prefetch_related('workspace').filter(workspace__id=id)
