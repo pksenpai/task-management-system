@@ -1,5 +1,5 @@
 # task-management-system
-<b>School project...</b>
+<strong>School project...</strong>
 <p>define permissions manually without using django permissions.</p>
 <p>Create a workspace to perform some tasks for yourself and your teammate.</p>
 <p>set permissions to members with workspace setting.</p>
