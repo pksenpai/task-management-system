@@ -5,3 +5,5 @@
 <p>set permissions to members with workspace setting.</p>
 <p>public and private workspaces - hide or show tasks made by you!</p>
 <p>& ... </p>
+
+<br> <img src='read-me image.png' width="800" height="500"/> </a>
